@@ -2,7 +2,8 @@
 
 *la blockchain est une technologie qui permet le stockage et la transmission d'information de manière transparente, décentralisée et sans tiers de confiance.*
 
-> Mise à jour: 29/06/2026
+> Date de création: 29.06.2026
+> Mise à jour: 30.06.2026
 
 ---
 
@@ -13,7 +14,7 @@ La blockchain représente une **séquence de blocs reliés les uns aux autres** 
 > [!info]
 > Cette base de donnée est immuable, c'est à dire qu'il est seulement possible de consulter et d'ajouter des informations sur cette dernière.
 
-Contrairement aux systèmes banquaire traditionnels, **la blockchain se veut décentralisée**. Au lieu d'avoir une banque qui contrôle et valide les transactions, ce rôle est reparti sur un **réseau d'ordinateurs, appelé validateur ou noeuds**. Chaque fois qu'une transaction est effectué, elle doit être approuvée par ces ordinatuers selon des régles préétablies, ce qui assure la sécurité et l'integrité des données.
+Contrairement aux systèmes banquaire traditionnels, **la blockchain se veut décentralisée**. Au lieu d'avoir une banque qui contrôle et valide les transactions, ce rôle est reparti sur un **réseau d'ordinateurs, appelé validateur ou noeuds**. Chaque fois qu'une transaction est effectué, elle doit être approuvée par ces ordinateurs selon des régles préétablies, ce qui assure la sécurité et l'integrité des données.
 
 ![Architectures](https://cryptoast.fr/wp-content/uploads/2024/03/architecture-centralisee-vs-decentralisee.jpg)
 
@@ -27,8 +28,8 @@ Dans une blockchain, chaque nouveau bloc (c'est à dire un ensemble de transacti
 
 Ces ordinateur, aussi appelés **validateurs**, travaillen pour atteindre un consensus majoritaire, essentiel pour maintenir l'intégrité du réseau. Il existe 2 principaux mécanisme qui permettent d'assurer la sécurité et la validité des transactions sur les réseux blockchain :
 
-- Le Proof of Work (PoW)
-- Le Proof of Stake (PoS)
+- Le Proof of Work (**PoW**)
+- Le Proof of Stake (**PoS**)
 
 ---
 
@@ -58,7 +59,6 @@ Les avantages de la blockchain peuvent se résumer en 4 points :
 ## Comment fonctionne une transaction sur la blockchain
 
 [Vidéo - Comprendre la blockchain](https://www.youtube.com/watch?v=6uYRN6b5EMU&t=430s)
-
 
 Exemple concret avec la blockchain Bitcoin fonctionnant avec le consensus Proof of Work
 
@@ -133,7 +133,7 @@ Les **tokens non fongibles** (**NFT**) tirent parti de l'immutabilité de la blo
 
 Les blockchains peuvent rencontrer des difficultés à traiter un grand nombres de transaction simultanément, ce qui congestionne le réseau et entraine une augmentation des coûts de transaction.
 
-Pour l'instant, aucune blockchain majeure n'arrive à rivaliser avec la scalabilité d'un réseau de paiement comme Visa qui est en capacité de traiter 24 000 transactions par secondes.
+Pour l'instant, aucune blockchain majeure n'arrive à rivaliser avec la scalabilité d'un réseau de paiement comme **Visa qui est en capacité de traiter 24 000 transactions par secondes**.
 
 ### L'impact environnemental
 
