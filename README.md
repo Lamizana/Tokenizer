@@ -110,4 +110,4 @@ documentation/  documentation du projet (blockchain, explorateurs, token)
 
 - [`documentation/gold42.md`](documentation/gold42.md) — fonctionnement détaillé du token
 - [`documentation/blockchain.md`](documentation/blockchain.md) — rappels sur la blockchain
-- [`documentation/etherscan.md`](documentation/etherscan.md) — explorateurs de blocs
+- [`documentation/bscscan.md`](documentation/bscscan.md) — explorateur de blocs BscScan
