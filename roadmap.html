@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokeniser — Plan de route</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-card: #171a24;
+    --bg-hover: #1e2230;
+    --border: #262b3d;
+    --text: #e6e8ef;
+    --text-dim: #9aa0b0;
+    --accent: #f0b90b;
+    --accent-dark: #c99406;
+    --done: #2ecc71;
+    --wip: #f0b90b;
+    --todo: #3a3f54;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    padding: 32px 20px 80px;
+  }
+
+  .container { max-width: 900px; margin: 0 auto; }
+
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding: 40px 24px;
+    background: linear-gradient(135deg, #1a1e2b 0%, #14161f 60%, #1a1a14 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+  }
+
+  header h1 span { color: var(--accent); }
+
+  header p { color: var(--text-dim); margin-top: 8px; }
+
+  .badges { margin-top: 16px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+
+  .badge {
+    font-size: 0.78rem;
+    padding: 4px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-card);
+    color: var(--text-dim);
+  }
+
+  .badge.hl { border-color: var(--accent); color: var(--accent); }
+
+  /* Progress */
+  .progress-wrap {
+    max-width: 560px;
+    margin: 24px auto 0;
+    text-align: left;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+
+  .progress-bar {
+    height: 10px;
+    background: var(--todo);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--done));
+    border-radius: 999px;
+    transition: width 0.4s ease;
+  }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+
+  .stat {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px;
+    text-align: center;
+  }
+
+  .stat .num { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+
+  .stat .lbl { font-size: 0.78rem; color: var(--text-dim); margin-top: 2px; }
+
+  /* Phases */
+  .phase {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--todo);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .phase:hover { background: var(--bg-hover); }
+
+  .phase.done { border-left-color: var(--done); }
+  .phase.done .title { color: var(--text-dim); text-decoration: line-through; }
+  .phase.wip { border-left-color: var(--wip); }
+
+  .phase-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .phase-head input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    accent-color: var(--done);
+    cursor: pointer;
+  }
+
+  .phase-num {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--todo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--text-dim);
+  }
+
+  .phase.done .phase-num { border-color: var(--done); color: var(--done); }
+  .phase.wip .phase-num { border-color: var(--wip); color: var(--wip); }
+
+  .phase-title {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+
+  .phase-date {
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+
+  .phase-body { display: none; margin-top: 14px; }
+
+  .phase.open .phase-body { display: block; }
+
+  .phase-body p { color: var(--text-dim); margin-bottom: 10px; }
+
+  .phase-body ul { list-style: none; }
+
+  .phase-body li {
+    position: relative;
+    padding-left: 22px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .phase-body li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .phase-body li.sub { color: var(--text-dim); font-size: 0.9rem; margin-left: 14px; }
+
+  .todo-list { margin-top: 14px; border-top: 1px dashed var(--border); padding-top: 10px; }
+
+  .todo-list label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    font-size: 0.92rem;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+
+  .todo-list label input { accent-color: var(--done); cursor: pointer; }
+
+  .todo-list label.done { color: var(--text-dim); text-decoration: line-through; }
+
+  .tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .tag.opt { border-color: var(--accent-dark); color: var(--accent); }
+
+  /* Toolbox */
+  .toolbox {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-top: 28px;
+  }
+
+  .toolbox h2 { font-size: 1.1rem; margin-bottom: 12px; color: var(--accent); }
+
+  .toolbox ul { list-style: none; }
+
+  .toolbox li { padding: 4px 0; color: var(--text-dim); }
+
+  .toolbox li b { color: var(--text); }
+
+  .toolbox li a { color: var(--accent); text-decoration: none; }
+
+  .toolbox li a:hover { text-decoration: underline; }
+
+  footer { text-align: center; color: var(--text-dim); font-size: 0.8rem; margin-top: 36px; }
+
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: 1fr; }
+    .phase-date { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>🪙 Tokeniser — <span>Plan de route</span></h1>
+    <p>Créer votre propre token BEP-20 sur la BNB Chain (projet 42 × BNB Chain)</p>
+    <div class="badges">
+      <span class="badge hl">Solidity ^0.8.0</span>
+      <span class="badge hl">BEP-20 / BSC</span>
+      <span class="badge">Remix IDE</span>
+      <span class="badge">BSC Testnet</span>
+      <span class="badge">BSCScan</span>
+      <span class="badge">OpenZeppelin</span>
+    </div>
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Avancement</span>
+        <span id="progress-text">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat"><div class="num" id="stat-phases">0/8</div><div class="lbl">Phases terminées</div></div>
+    <div class="stat"><div class="num" id="stat-tasks">0/0</div><div class="lbl">Tâches cochées</div></div>
+    <div class="stat"><div class="num" id="stat-pct">0%</div><div class="lbl">Progression</div></div>
+  </div>
+
+  <main id="roadmap">
+
+    <!-- PHASE 1 -->
+    <section class="phase" data-key="p1" data-date="Étape 1">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p1">
+        <div class="phase-num">1</div>
+        <div class="phase-title">Audit & fondations</div>
+        <div class="phase-date">Revue + choix</div>
+      </div>
+      <div class="phase-body">
+        <p>Analyser l'existant et poser les choix techniques avant toute modification.</p>
+        <ul>
+          <li>Revoir <b>code/token.sol</b> : conflit entre <code>uint8 public constant decimals</code> et le getter <code>decimals()</code> d'OpenZeppelin</li>
+          <li>Vérifier la logique mint / burn / transferOwnership et le total supply</li>
+          <li>Choisir la norme : <b>BEP-20</b> sur la BNB Smart Chain (réseau partenaire du sujet)</li>
+          <li>Outil de déploiement : <b>Remix IDE</b> + extension BNB Chain</li>
+          <li>Créer un compte sur BSCScan et récupérer des <b>TBNB gratuits</b> via le faucet</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p1-1"> Audit du contrat actuel réalisé</label>
+          <label><input type="checkbox" data-task="p1-2"> Norme BEP-20 et réseau BSC confirmés</label>
+          <label><input type="checkbox" data-task="p1-3"> Remix + compte BSCScan + TBNB faucet prêts</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 2 -->
+    <section class="phase" data-key="p2" data-date="Étape 2">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p2">
+        <div class="phase-num">2</div>
+        <div class="phase-title">Smart contract (token "42")</div>
+        <div class="phase-date">Développement</div>
+      </div>
+      <div class="phase-body">
+        <p>Corriger et renommer le contrat. Le nom du token doit contenir <b>42</b>.</p>
+        <ul>
+          <li>Nom proposé : <b>Token42</b>, symbole/ticker : <b>T42</b> (à valider)</li>
+          <li>Corriger le conflit <code>decimals</code> (supprimer la constante, hériter du getter ERC20)</li>
+          <li>Garder : mint (onlyOwner), burn, transferOwnership, events <code>Mint</code>/<code>Burn</code></li>
+          <li>Commenter le code en français avec des noms explicites (revue à l'évaluation)</li>
+          <li>Vérifier le total supply (ex: 1 000 000 × 10<sup>18</sup>)</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p2-1"> Token renommé avec "42"</label>
+          <label><input type="checkbox" data-task="p2-2"> Conflit decimals corrigé</label>
+          <label><input type="checkbox" data-task="p2-3"> Contrat commenté et lisible</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 3 -->
+    <section class="phase" data-key="p3" data-date="Étape 3">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p3">
+        <div class="phase-num">3</div>
+        <div class="phase-title">Tests & sécurité</div>
+        <div class="phase-date">Validation</div>
+      </div>
+      <div class="phase-body">
+        <p>Tester toutes les fonctions sur la VM Remix avant déploiement public.</p>
+        <ul>
+          <li>Compiler sur la VM de Remix (machine virtuelle injectée)</li>
+          <li>Tester : deploy, transfer, approve + transferFrom, balanceOf</li>
+          <li>Tester : mint (par owner ✅ / par autre adresse ❌ via onlyOwner)</li>
+          <li>Tester : burn et transferOwnership, vérifier les events</li>
+          <li>Revue de sécurité : propriété, privilèges, aucun fonds réel engagé</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p3-1"> Déploiement local réussi sur VM</label>
+          <label><input type="checkbox" data-task="p3-2"> Transferts et allowances testés</label>
+          <label><input type="checkbox" data-task="p3-3"> Restrictions onlyOwner vérifiées</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 4 -->
+    <section class="phase" data-key="p4" data-date="Étape 4">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p4">
+        <div class="phase-num">4</div>
+        <div class="phase-title">Déploiement sur BSC Testnet</div>
+        <div class="phase-date">Deployment</div>
+      </div>
+      <div class="phase-body">
+        <p>Préparer le dossier <b>deployment/</b> (obligatoire dans le sujet) puis déployer.</p>
+        <ul>
+          <li>Créer le dossier <b>deployment/</b> à la racine du dépôt</li>
+          <li>Y placer : script Remix, metadata du déploiement, ABI</li>
+          <li>Connecter MetaMask à la BSC Testnet et ajouter les TBNB du faucet</li>
+          <li>Déployer via Remix (environnement « Injected Provider »)</li>
+          <li>Noter l'<b>adresse du contrat</b> et le <b>réseau</b> (BSC Testnet)</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p4-1"> Dossier deployment/ créé et complet</label>
+          <label><input type="checkbox" data-task="p4-2"> MetaMask + TBNB configurés</label>
+          <label><input type="checkbox" data-task="p4-3"> Contrat déployé sur BSC Testnet</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 5 -->
+    <section class="phase" data-key="p5" data-date="Étape 5">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p5">
+        <div class="phase-num">5</div>
+        <div class="phase-title">Vérification & publication</div>
+        <div class="phase-date">BSCScan</div>
+      </div>
+      <div class="phase-body">
+        <p>Rendre le contrat vérifié et public sur l'explorateur de blocs.</p>
+        <ul>
+          <li>Vérifier le contrat sur <b>BSCScan</b> (source + version Solidity + licence)</li>
+          <li>Définir le ticker <b>T42</b> et uploader un logo si possible</li>
+          <li>Effectuer des transactions de démonstration (mint, transfer)</li>
+          <li>Indiquer l'<b>adresse du contrat</b> + le <b>réseau</b> dans le dépôt Git (README)</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p5-1"> Contrat vérifié sur BSCScan</label>
+          <label><input type="checkbox" data-task="p5-2"> Ticker publié</label>
+          <label><input type="checkbox" data-task="p5-3"> Adresse + réseau notés dans le dépôt</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 6 -->
+    <section class="phase" data-key="p6" data-date="Étape 6">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p6">
+        <div class="phase-num">6</div>
+        <div class="phase-title">Documentation</div>
+        <div class="phase-date">Documentation</div>
+      </div>
+      <div class="phase-body">
+        <p>Terminer la documentation du dossier <b>documentation/</b> et le README racine.</p>
+        <ul>
+          <li>Compléter <b>etherscan.md</b> (actuellement inachevé : phrase coupée)</li>
+          <li>Rédiger le <b>README.md</b> racine : choix techniques, norme, réseau, adresse du contrat</li>
+          <li>Documenter comment utiliser le token (install, deploy, transactions)</li>
+          <li class="sub tag opt">Optionnel</li>
+          <li class="sub">Rédiger un <b>whitepaper</b> présentant les caractéristiques du token</li>
+          <li class="sub">Créer une <b>vidéo de démonstration</b> (simple lien suffit)</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p6-1"> etherscan.md terminé</label>
+          <label><input type="checkbox" data-task="p6-2"> README.md explicatif complet</label>
+          <label><input type="checkbox" data-task="p6-3"> Guide d'utilisation du token</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 7 -->
+    <section class="phase" data-key="p7" data-date="Étape 7">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p7">
+        <div class="phase-num">7</div>
+        <div class="phase-title">Bonus — Multisig</div>
+        <div class="phase-date"><span class="tag opt">Optionnel</span></div>
+      </div>
+      <div class="phase-body">
+        <p>Partie bonus : sécuriser les opérations sensibles avec un système de signatures multiples.</p>
+        <ul>
+          <li>Évaluer l'architecture : contrat multisig séparé ou intégré au token</li>
+          <li>Définir le nombre de signatures requises (ex: 2/3) et les signataires</li>
+          <li>Relier le multisig aux actions privilégiées du token (mint, transferOwnership)</li>
+          <li>Tester les scénarios : exécution seulement avec N signatures</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p7-1"> Architecture multisig définie (2/3)</label>
+          <label><input type="checkbox" data-task="p7-2"> Contrat multisig développé</label>
+          <label><input type="checkbox" data-task="p7-3"> Multisig testé et déployé</label>
+        </div>
+      </div>
+    </section>
+
+    <!-- PHASE 8 -->
+    <section class="phase" data-key="p8" data-date="Étape 8">
+      <div class="phase-head">
+        <input type="checkbox" data-done="p8">
+        <div class="phase-num">8</div>
+        <div class="phase-title">Livraison finale</div>
+        <div class="phase-date">Validation</div>
+      </div>
+      <div class="phase-body">
+        <p>Relecture complète et mise à jour du dépôt avant soumission à l'évaluation.</p>
+        <ul>
+          <li>Vérifier la structure attendue : <code>README.md</code>, <code>code/</code>, <code>deployment/</code>, <code>documentation/</code></li>
+          <li>Démo vidéo optionnelle avec lien dans le dépôt</li>
+          <li>Relecture du contrat et des commentaires (revue de code à l'évaluation)</li>
+          <li>Commit final et push sur Git (partage possible via le compte personnel)</li>
+          <li>Checklist du sujet complète : nom avec 42 ✅, pas de termes insultants ✅</li>
+        </ul>
+        <div class="todo-list">
+          <label><input type="checkbox" data-task="p8-1"> Structure du dépôt conforme</label>
+          <label><input type="checkbox" data-task="p8-2"> Contrat + docs relus</label>
+          <label><input type="checkbox" data-task="p8-3"> Commit final poussé sur Git</label>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="toolbox">
+    <h2>🧰 Ressources utiles</h2>
+    <ul>
+      <li><b>Remix IDE</b> — <a href="https://remix.ethereum.org" target="_blank" rel="noopener">remix.ethereum.org</a></li>
+      <li><b>Faucet TBNB</b> — <a href="https://www.bnbchain.org/" target="_blank" rel="noopener">bnbchain.org</a> (TBNB gratuits, sans montant minimum)</li>
+      <li><b>BSCScan</b> — <a href="https://testnet.bscscan.com" target="_blank" rel="noopener">testnet.bscscan.com</a></li>
+      <li><b>Doc BNB Chain × Remix</b> — <a href="https://docs.bnbchain.org/docs/remix-new/" target="_blank" rel="noopener">docs.bnbchain.org</a></li>
+      <li><b>OpenZeppelin ERC20</b> — <a href="https://docs.openzeppelin.com/contracts/" target="_blank" rel="noopener">docs.openzeppelin.com</a></li>
+      <li><b>Sujet du projet</b> — <a href="documentation/sujet.md">documentation/sujet.md</a></li>
+    </ul>
+  </div>
+
+  <footer>Tokeniser — Roadmap interactive · Progression sauvegardée localement (localStorage)</footer>
+</div>
+
+<script>
+  (function () {
+    const STORAGE_KEY = 'tokeniser-roadmap';
+
+    const doneKeys = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const phases = Array.from(document.querySelectorAll('.phase'));
+
+    // --- helpers ---
+    function save() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(doneKeys));
+      render();
+    }
+
+    function markDone(phaseEl, done) {
+      phaseEl.classList.toggle('done', done);
+      if (done) phaseEl.classList.remove('wip');
+    }
+
+    // --- interactions: open/close ---
+    document.querySelectorAll('.phase-head').forEach(head => {
+      head.addEventListener('click', e => {
+        if (e.target.matches('input[type="checkbox"]')) return;
+        const phase = head.closest('.phase');
+        phase.classList.toggle('open');
+      });
+    });
+
+    // --- done checkboxes ---
+    document.querySelectorAll('[data-done]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const key = cb.getAttribute('data-done');
+        const phase = cb.closest('.phase');
+        doneKeys[key] = cb.checked;
+        markDone(phase, cb.checked);
+        save();
+      });
+    });
+
+    // --- task checkboxes ---
+    document.querySelectorAll('[data-task]').forEach(cb => {
+      cb.addEventListener('change', () => {
+        const key = cb.getAttribute('data-task');
+        doneKeys[key] = cb.checked;
+        cb.closest('label').classList.toggle('done', cb.checked);
+        save();
+      });
+    });
+
+    // --- restore ---
+    document.querySelectorAll('[data-done]').forEach(cb => {
+      const key = cb.getAttribute('data-done');
+      if (doneKeys[key]) {
+        cb.checked = true;
+        markDone(cb.closest('.phase'), true);
+      }
+    });
+
+    document.querySelectorAll('[data-task]').forEach(cb => {
+      const key = cb.getAttribute('data-task');
+      if (doneKeys[key]) {
+        cb.checked = true;
+        cb.closest('label').classList.add('done');
+      }
+    });
+
+    // --- global render ---
+    function render() {
+      const totalTasks = document.querySelectorAll('[data-task]').length;
+      const doneTasks = Object.entries(doneKeys).filter(([k, v]) => v && k.startsWith('p')).length;
+      const phaseKeys = phases.map(p => p.getAttribute('data-key'));
+      const donePhaseKeys = phaseKeys.filter(k => doneKeys[k]);
+      const pct = Math.round((doneTasks / totalTasks) * 100);
+
+      document.getElementById('stat-phases').textContent = donePhaseKeys.length + '/' + phases.length;
+      document.getElementById('stat-tasks').textContent = doneTasks + '/' + totalTasks;
+      document.getElementById('stat-pct').textContent = pct + '%';
+      document.getElementById('progress-text').textContent = pct + '%';
+      document.getElementById('progress-fill').style.width = pct + '%';
+    }
+
+    // mark next incomplete phase as "wip"
+    (function () {
+      let foundOpen = false;
+      phases.forEach(p => {
+        const done = doneKeys[p.getAttribute('data-key')];
+        if (!done && !foundOpen) {
+          p.classList.add('wip');
+          foundOpen = true;
+        }
+      });
+    })();
+
+    render();
+  })();
+</script>
+</body>
+</html>

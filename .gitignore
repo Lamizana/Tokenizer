@@ -1,0 +1,8 @@
+# VS Code
+.vscode/
+
+# Dépendances Node
+node_modules/
+
+# Clés privées / variables d'environnement
+.env

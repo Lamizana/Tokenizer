@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="fr"><script src="blob:null/0eaeb30a-3c13-4135-aa24-e360d6bed1b7"></script><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokeniser — Tutoriel pas à pas</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --bg-card: #171a24;
+    --bg-hover: #1e2230;
+    --border: #262b3d;
+    --text: #e6e8ef;
+    --text-dim: #9aa0b0;
+    --accent: #f0b90b;
+    --accent-dark: #c99406;
+    --done: #2ecc71;
+    --danger: #e74c3c;
+    --info: #4ea1ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    padding: 0 20px 80px;
+  }
+
+  .container { max-width: 860px; margin: 0 auto; }
+
+  header {
+    text-align: center;
+    padding: 36px 24px;
+    margin: 20px 0 8px;
+    background: linear-gradient(135deg, #1a1e2b 0%, #14161f 60%, #1a1a14 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+  }
+
+  header h1 { font-size: 1.8rem; }
+  header h1 span { color: var(--accent); }
+  header p { color: var(--text-dim); margin-top: 8px; }
+  header .level {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 0.8rem;
+    padding: 4px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+  }
+
+  /* Sommaire */
+  nav.toc {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+  }
+
+  nav.toc h2 { font-size: 0.95rem; color: var(--accent); margin-bottom: 10px; }
+
+  nav.toc ul { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 10px; }
+
+  nav.toc a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    transition: all 0.15s;
+  }
+
+  nav.toc a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Sections */
+  .section {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px 26px;
+    margin-top: 22px;
+  }
+
+  .section > h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  .section > h2 .step-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #000;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+  }
+
+  .section > .intro { color: var(--text-dim); margin-bottom: 14px; }
+
+  .section .goal {
+    background: rgba(240, 185, 11, 0.08);
+    border-left: 3px solid var(--accent);
+    padding: 10px 14px;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+
+  .goal b { color: var(--accent); }
+
+  /* Étapes */
+  .step {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 14px;
+  }
+
+  .step h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .step h3 .k { color: var(--accent); }
+
+  .step p { color: var(--text-dim); margin-bottom: 8px; }
+  .step ul, .step ol { padding-left: 20px; margin-bottom: 8px; color: var(--text-dim); }
+  .step li { margin-bottom: 4px; }
+  .step li b { color: var(--text); }
+
+  code {
+    background: #0b0d13;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+    color: var(--accent);
+    font-family: 'Cascadia Code', Consolas, monospace;
+  }
+
+  pre {
+    background: #0b0d13;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+
+  pre code { border: none; padding: 0; color: #d8dee9; }
+
+  /* Boîtes */
+  .box {
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+
+  .box.warn { background: rgba(231, 76, 60, 0.08); border-left: 3px solid var(--danger); color: var(--text-dim); }
+  .box.info { background: rgba(78, 161, 255, 0.08); border-left: 3px solid var(--info); color: var(--text-dim); }
+  .box.good { background: rgba(46, 204, 113, 0.08); border-left: 3px solid var(--done); color: var(--text-dim); }
+
+  .box b { color: var(--text); }
+  .box.warn b { color: var(--danger); }
+  .box.info b { color: var(--info); }
+  .box.good b { color: var(--done); }
+
+  /* Tableaux */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    font-size: 0.9rem;
+  }
+
+  th, td {
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    text-align: left;
+  }
+
+  th { background: var(--bg-hover); color: var(--accent); }
+  td { color: var(--text-dim); }
+  td code { font-size: 0.85em; }
+
+  footer { text-align: center; color: var(--text-dim); font-size: 0.8rem; margin-top: 36px; }
+
+  @media (max-width: 600px) {
+    .section { padding: 18px 14px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <h1>🪙 Tutoriel : Créer votre premier token <span>pas à pas</span></h1>
+    <p>Un guide complet pour débutant — de zéro jusqu'à un token publié sur la blockchain</p>
+    <span class="level">Niveau : débutant · Durée estimée : 2 à 3 h · 0 € requis</span>
+  </header>
+
+  <nav class="toc">
+    <h2>Sommaire</h2>
+    <ul>
+      <li><a href="#concepts">A. Concepts</a></li>
+      <li><a href="#metamask">B. MetaMask</a></li>
+      <li><a href="#faucet">C. TBNB gratuits</a></li>
+      <li><a href="#contract">D. Le smart contract</a></li>
+      <li><a href="#compile">E. Compiler</a></li>
+      <li><a href="#deploy">F. Déployer</a></li>
+      <li><a href="#test">G. Tester</a></li>
+      <li><a href="#verify">H. BSCScan</a></li>
+      <li><a href="#depot">I. Dépôt conforme</a></li>
+      <li><a href="#faq">J. Dépannage</a></li>
+    </ul>
+  </nav>
+
+  <!-- ============ A. CONCEPTS ============ -->
+  <section class="section" id="concepts">
+    <h2><span class="step-num">A</span> Comprendre avant de coder</h2>
+    <p class="intro">Pas de panique si certains mots te semblent étranges. Voici l'essentiel en 5 minutes.</p>
+
+    <div class="step">
+      <h3><span class="k">A.1</span> Qu'est-ce qu'un token ?</h3>
+      <p>Un <b>token</b> est une sorte de "pièce numérique" créée sur une blockchain. Dans notre projet, il suivra la norme <b>BEP-20</b> (la norme des jetons sur la BNB Chain), calquée sur l'ERC-20 d'Ethereum.</p>
+      <p>Cette norme impose un socle commun : tout token possède un <code>name</code> (nom), un <code>symbol</code> (ticker), un nombre de <code>decimals</code> (18 comme ETH), et des fonctions comme <code>transfer</code>, <code>balanceOf</code>, <code>approve</code>, <code>transferFrom</code>. Grâce à cela, tous les wallets et plateformes comprennent ton token automatiquement.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">A.2</span> Blockchain, testnet et réseau réel</h3>
+      <p>La <b>BNB Chain</b> (réseau du partenaire du projet 42) existe en deux versions :</p>
+      <ul>
+        <li><b>Réseau principal (Mainnet)</b> : le vrai réseau, avec de l'argent réel. <b>On n'y touche pas pour ce projet.</b></li>
+        <li><b>Réseau de test (Testnet)</b> : une copie gratuite pour s'entraîner. Les tokens s'y appellent des <b>TBNB</b> et <b>ne valent rien</b>. C'est ici qu'on va travailler.</li>
+      </ul>
+      <div class="box good"><b>Rassure-toi :</b> ce projet ne demande <u>jamais</u> d'argent réel. Tout se passe sur le testnet.</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">A.3</span> Le vocabulaire à connaître</h3>
+      <ul>
+        <li><b>Wallet (portefeuille)</b> : applis comme MetaMask qui détiennent tes adresses et tes fonds.</li>
+        <li><b>Adresse</b> : une longue chaîne (<code>0x...</code>) qui identifie un compte, un peu comme un numéro de compte bancaire.</li>
+        <li><b>Smart contract</b> : un programme qui vit sur la blockchain (ici : ton token).</li>
+        <li><b>Gas</b> : la petite redevance en crypto payée pour exécuter une action sur la blockchain.</li>
+        <li><b>Faucet</b> : un site qui distribue gratuitement des jetons de test.</li>
+        <li><b>Block explorer (BSCScan)</b> : un moteur de recherche de la blockchain, où chaque transaction est visible.</li>
+        <li><b>ABI</b> : la "notice d'utilisation" d'un smart contract, décrivant ses fonctions.</li>
+      </ul>
+    </div>
+
+    <div class="box info"><b>Notre objectif :</b> créer le token <code>Token42</code> (ticker <code>T42</code>), le déployer sur la <b>BSC Testnet</b>, puis le vérifier sur <b>BSCScan</b>. Le nom doit obligatoirement contenir <b>42</b>.</div>
+  </section>
+
+  <!-- ============ B. METAMASK ============ -->
+  <section class="section" id="metamask">
+    <h2><span class="step-num">B</span> Installer MetaMask et ajouter le réseau de test</h2>
+    <p class="intro">MetaMask est le wallet qu'on utilisera pour signer les transactions et recevoir le token.</p>
+
+    <div class="goal"><b>Objectif :</b> un wallet prêt, connecté au réseau BSC Testnet.</div>
+
+    <div class="step">
+      <h3><span class="k">B.1</span> Installer l'extension</h3>
+      <ol>
+        <li>Va sur <code>metamask.io</code> et clique sur <b>"Download"</b>.</li>
+        <li>Installe l'extension sur ton navigateur (Chrome, Firefox, Brave…).</li>
+        <li>Ouvre l'extension et clique sur <b>"Créer un wallet"</b>.</li>
+        <li>Choisis un mot de passe.</li>
+        <li><b>IMPORTANT :</b> note la <b>phrase de récupération (seed phrase)</b> sur papier, jamais en ligne. C'est la clé de ton wallet. Quiconque l'a, contrôle tes fonds.</li>
+      </ol>
+      <div class="box warn"><b>Jamais</b> de donner sa seed phrase à qui que ce soit, ni de la coller dans un site ou dans un code.</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">B.2</span> Ajouter le réseau BSC Testnet</h3>
+      <p>Par défaut, MetaMask est sur Ethereum. On ajoute la BNB Smart Chain de test :</p>
+      <ol>
+        <li>Clique sur le menu déroulant en haut à gauche (il affiche "Ethereum Mainnet").</li>
+        <li>Clique sur <b>"Add network"</b> puis <b>"Add a network manually"</b>.</li>
+        <li>Remplis les champs suivants (à recopier exactement) :</li>
+      </ol>
+      <table>
+        <tbody><tr><th>Champ</th><th>Valeur</th></tr>
+        <tr><td>Network name</td><td><code>BSC Testnet</code></td></tr>
+        <tr><td>New RPC URL</td><td><code>https://data-seed-prebsc-1-s1.bnbchain.org:8545</code></td></tr>
+        <tr><td>Chain ID</td><td><code>97</code></td></tr>
+        <tr><td>Currency symbol</td><td><code>tBNB</code></td></tr>
+        <tr><td>Block Explorer URL</td><td><code>https://testnet.bscscan.com</code></td></tr>
+      </tbody></table>
+      <p>Clique sur <b>"Save"</b>. Le réseau doit apparaître dans la liste.</p>
+      <div class="box info"><b>Astuce :</b> le "Chain ID 97" identifie la BSC Testnet. Si tu vois un autre numéro, tu es sur le mauvais réseau.</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">B.3</span> Copier ton adresse</h3>
+      <p>Clique sur ton adresse (sous le nom du compte, ça ressemble à <code>0x1234...abcd</code>)
+ pour la copier. Garde-la sous la main : tu t'en serviras partout. On 
+notera aussi les deux premières adresses de test dans le fichier <code>deployment/</code> plus tard.</p>
+    </div>
+  </section>
+
+  <!-- ============ C. FAUCET ============ -->
+  <section class="section" id="faucet">
+    <h2><span class="step-num">C</span> Récupérer des TBNB gratuits (faucet)</h2>
+    <p class="intro">Pour déployer un contrat, il faut payer le "gas" en TBNB. On les obtient gratuitement.</p>
+
+    <div class="goal"><b>Objectif :</b> avoir quelques TBNB sur ton wallet testnet.</div>
+
+    <div class="step">
+      <h3><span class="k">C.1</span> Utiliser le faucet de BNB Chain</h3>
+      <ol>
+        <li>Va sur le site officiel : <code>https://www.bnbchain.org/</code> puis cherche la section <b>Faucet</b> (ou va directement sur <code>faucet.bnbchain.org</code>).</li>
+        <li>Sélectionne le réseau <b>BSC Testnet</b>.</li>
+        <li>Colle ton adresse MetaMask (celle du B.3).</li>
+        <li>Clique sur le bouton pour recevoir des TBNB (un montant 
+minimum est parfois exigé dans le wallet, mais le faucet officiel n'en 
+demande pas).</li>
+        <li>Attends la confirmation. Vérifie dans MetaMask que ton solde TBNB a augmenté.</li>
+      </ol>
+      <div class="box warn"><b>Si tu n'as rien reçu :</b> attends 
+quelques minutes ou réessaie. Les faucets peuvent être temporairement à 
+sec ou demander un délai entre deux demandes. C'est normal.</div>
+      <div class="box good"><b>Vérif :</b> solde TBNB &gt; 0 dans MetaMask = étape réussie.</div>
+    </div>
+  </section>
+
+  <!-- ============ D. SMART CONTRACT ============ -->
+  <section class="section" id="contract">
+    <h2><span class="step-num">D</span> Écrire le smart contract du token</h2>
+    <p class="intro">On écrit le programme de notre token en <b>Solidity</b>. On réutilise la bibliothèque <b>OpenZeppelin</b> qui fournit un ERC-20 éprouvé (pas besoin de tout réinventer, c'est plus sûr).</p>
+
+    <div class="goal"><b>Objectif :</b> un fichier <code>token.sol</code> correct, commenté, avec le nom "42" dedans.</div>
+
+    <div class="step">
+      <h3><span class="k">D.1</span> Le code complet du contrat</h3>
+      <p>Ce fichier doit aller dans le dossier <code>code/</code> de ton dépôt sous le nom <code>token.sol</code>. Voici le code (version corrigée par rapport à l'existant — le conflit <code>decimals</code> est supprimé) :</p>
+      <pre><code>// SPDX-License-Identifier: MIT
+// Token42 — jeton BEP-20 (standard ERC-20 d'OpenZeppelin)
+// Norme : BEP-20 sur la BNB Smart Chain
+pragma solidity ^0.8.0;
+
+// Import du contrat ERC-20 d'OpenZeppelin : fournit name, symbol,
+// decimals, totalSupply, balanceOf, transfer, approve, transferFrom...
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+
+contract Token42 is ERC20 {
+    // --- Propriétés du token ---
+    string public constant NAME = "Token42";   // Nom du token (doit contenir 42)
+    string public constant SYMBOL = "T42";     // Ticker (symbole court)
+    uint8 public constant DECIMALS = 18;       // 18 décimales, comme l'ETH
+
+    // --- Approvisionnement total (1 000 000 T42) ---
+    uint256 public constant TOTAL_SUPPLY = 1_000_000 * 10 ** uint256(DECIMALS);
+
+    // --- Propriétaire du contrat ---
+    address public owner;
+
+    // --- Événements (traces lisibles sur la blockchain) ---
+    event Mint(address indexed to, uint256 amount);
+    event Burn(address indexed from, uint256 amount);
+
+    // --- Constructeur : exécuté une seule fois au déploiement ---
+    constructor() ERC20(NAME, SYMBOL) {
+        owner = msg.sender;                        // Le déployeur devient propriétaire
+        _mint(msg.sender, TOTAL_SUPPLY);           // On crée toute la supply pour lui
+    }
+
+    // --- Créer (mint) des tokens, réservé au propriétaire ---
+    function mint(address recipient, uint256 amount) public onlyOwner {
+        require(totalSupply() + amount &lt;= TOTAL_SUPPLY,
+            "Token42: minting exceeds total supply");
+        _mint(recipient, amount);
+        emit Mint(recipient, amount);
+    }
+
+    // --- Détruire (burn) ses propres tokens ---
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+        emit Burn(msg.sender, amount);
+    }
+
+    // --- Transférer la propriété du contrat ---
+    function transferOwnership(address newOwner) public onlyOwner {
+        owner = newOwner;
+    }
+
+    // --- Restriction : seule la fonction ne peut être appelée que par le propriétaire ---
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Token42: only owner can perform this action");
+        _;
+    }
+}
+</code></pre>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">D.2</span> Expliquer les mots du code</h3>
+      <ul>
+        <li><code>pragma solidity ^0.8.0;</code> → version du langage utilisée (≥ 0.8.0).</li>
+        <li><code>contract Token42 is ERC20</code> → on hérite du standard OpenZeppelin.</li>
+        <li><code>constructor()</code> → code exécuté au déploiement : on donne toute la supply au déployeur et on l'élit propriétaire.</li>
+        <li><code>_mint</code> / <code>_burn</code> → fonctions internes d'OpenZeppelin qui créent/détruisent réellement des tokens.</li>
+        <li><code>onlyOwner</code> → un "modificateur" : il bloque la fonction si <code>msg.sender</code> (celui qui appelle) n'est pas le propriétaire. C'est notre garde-fou de sécurité.</li>
+        <li><code>require(...)</code> → vérifie une condition, sinon annule la transaction. Ici : on ne peut pas dépasser la supply totale.</li>
+      </ul>
+      <div class="box info"><b>Pourquoi pas de dépôt de fonds ?</b> Le contrat n'accepte aucun ETH/BNB : il n'a pas de fonction <code>payable</code>. C'est une bonne chose pour la sécurité (pas d'argent bloqué).</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">D.3</span> Mettre à jour ton dépôt</h3>
+      <ol>
+        <li>Ouvre <code>code/token.sol</code> et remplace son contenu par le code ci-dessus (ou modifie l'existant : renomme le contrat, supprime la constante <code>decimals</code> qui entrait en conflit avec le getter d'ERC20).</li>
+        <li>Assure-toi que chaque fonction a bien un commentaire lisible. C'est exigé par le sujet (revue de code à l'évaluation).</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ E. COMPILER ============ -->
+  <section class="section" id="compile">
+    <h2><span class="step-num">E</span> Compiler avec Remix</h2>
+    <p class="intro"><b>Remix IDE</b> est l'outil recommandé par le 
+sujet : un environnement gratuit dans le navigateur pour écrire, 
+compiler et déployer des smart contracts.</p>
+
+    <div class="goal"><b>Objectif :</b> ton code compile sans erreur.</div>
+
+    <div class="step">
+      <h3><span class="k">E.1</span> Ouvrir Remix et créer le fichier</h3>
+      <ol>
+        <li>Va sur <code>https://remix.ethereum.org</code>.</li>
+        <li>Dans le panneau de gauche (explorateur de fichiers), crée un dossier <b>contracts</b> s'il n'existe pas, puis un fichier <code>token.sol</code> (icône "nouveau fichier").</li>
+        <li>Colle le code du contrat dedans et enregistre (<code>Ctrl+S</code>).</li>
+      </ol>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">E.2</span> Installer OpenZeppelin (import)</h3>
+      <p>Le code importe <code>@openzeppelin/contracts/...</code>. Remix doit le télécharger :</p>
+      <ol>
+        <li>Ouvre l'onglet <b>"Solidity Compiler"</b> (icône en forme de "S" sur le côté gauche).</li>
+        <li>Clique sur <b>"Compile token.sol"</b>. Remix détectera l'import manquant et proposera de l'installer — accepte.</li>
+        <li>Sinon, va dans l'onglet <b>"File explorer"</b> → clic droit sur le dossier racine → <b>"Import from GitHub"</b> et colle : <code>OpenZeppelin/openzeppelin-contracts@master/contracts/token/ERC20/ERC20.sol</code>. Remix récupérera toute la bibliothèque.</li>
+      </ol>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">E.3</span> Choisir la version et compiler</h3>
+      <ol>
+        <li>Dans "Solidity Compiler", choisis la version <b>0.8.x</b> (ex. 0.8.26) — elle doit correspondre à <code>pragma solidity ^0.8.0</code>.</li>
+        <li>Clique sur <b>"Compile token.sol"</b>.</li>
+        <li>La barre verte <b>"Compilation successful"</b> doit s'afficher.</li>
+      </ol>
+      <div class="box warn"><b>Erreurs fréquentes :</b></div>
+      <ul>
+        <li><code>DeclarationError: Identifier already declared</code> → tu as encore la constante <code>decimals</code> en plus du getter. Supprime-la (le getter d'ERC20 la fournit).</li>
+        <li><code>Source file requires different compiler version</code> → change la version sélectionnée en 0.8.x.</li>
+        <li><code>SPDX license identifier not provided</code> → la ligne <code>// SPDX-License-Identifier: MIT</code> est absente, ajoute-la.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ F. DEPLOYER ============ -->
+  <section class="section" id="deploy">
+    <h2><span class="step-num">F</span> Déployer sur la BSC Testnet</h2>
+    <p class="intro">Maintenant qu'on compile, on déploie réellement le token sur le testnet via MetaMask.</p>
+
+    <div class="goal"><b>Objectif :</b> une adresse de contrat <code>0x...</code> sur le testnet + des TBNB dépensés (en test, ça ne coûte rien de réel).</div>
+
+    <div class="step">
+      <h3><span class="k">F.1</span> Connecter Remix à MetaMask</h3>
+      <ol>
+        <li>Dans Remix, ouvre l'onglet <b>"Deploy &amp; Run Transactions"</b> (icône en forme de flèche "Run").</li>
+        <li>Dans le menu <b>Environment</b>, choisis <b>"Injected Provider - MetaMask"</b>.</li>
+        <li>Une fenêtre MetaMask s'ouvre : choisis ton compte et clique <b>"Connect"</b>.</li>
+        <li>Vérifie que le réseau affiché dans MetaMask est bien <b>BSC Testnet</b> (chain ID 97).</li>
+      </ol>
+      <div class="box warn"><b>Si rien ne se connecte :</b> assure-toi que l'extension MetaMask est déverrouillée et que tu es sur le bon réseau. Relance Remix au besoin.</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">F.2</span> Lancer le déploiement</h3>
+      <ol>
+        <li>Dans le panneau "Deploy &amp; Run", le contrat <b>Token42</b> doit être sélectionné (en haut).</li>
+        <li>Clique sur <b>"Deploy"</b>.</li>
+        <li>Une fenêtre MetaMask apparaît : vérifie le "gas" estimé et clique <b>"Confirmer"</b>.</li>
+        <li>Attends que la transaction soit incluse dans un bloc (généralement quelques secondes).</li>
+      </ol>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">F.3</span> Récupérer l'adresse du contrat</h3>
+      <ol>
+        <li>Sous la section "Deployed Contracts" de Remix, tu verras ton contrat déployé avec son adresse <code>0x...</code>.</li>
+        <li><b>Clique sur la copie</b> de l'adresse (icône) et sauvegarde-la quelque part. On en a besoin pour BSCScan et pour le README.</li>
+        <li>Note aussi le réseau : <b>BSC Testnet</b>.</li>
+      </ol>
+      <div class="box good"><b>Réussi !</b> Ton token existe désormais sur la blockchain de test.</div>
+    </div>
+  </section>
+
+  <!-- ============ G. TESTER ============ -->
+  <section class="section" id="test">
+    <h2><span class="step-num">G</span> Tester le token (démonstration)</h2>
+    <p class="intro">On démontre que le token fonctionne. Ces actions seront montrées à l'évaluation.</p>
+
+    <div class="goal"><b>Objectif :</b> prouver que balance, transfert, mint et burn marchent.</div>
+
+    <div class="step">
+      <h3><span class="k">G.1</span> Vérifier le solde initial</h3>
+      <ol>
+        <li>Dans Remix, déploie le contrat (section "Deployed Contracts").</li>
+        <li>Clique sur <b><code>balanceOf</code></b> et colle ton adresse MetaMask, puis clique le bouton.</li>
+        <li>Tu dois voir <code>1000000000000000000000000</code> (1 000 000 T42 avec 18 décimales).</li>
+      </ol>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">G.2</span> Transférer des tokens</h3>
+      <ol>
+        <li>Dans MetaMask, copie une <b>deuxième adresse</b> (compte de test B.3).</li>
+        <li>Appelle <code>transfer</code> avec : adresse destinataire + montant <code>10000000000000000000</code> (soit 10 T42).</li>
+        <li>Confirme dans MetaMask. Vérifie avec <code>balanceOf</code> que le destinataire a bien reçu 10 T42.</li>
+      </ol>
+      <div class="box info"><b>Note :</b> 1 T42 = <code>1</code> suivi de 18 zéros en "plus petit entier". C'est la règle des 18 décimales, comme pour l'ETH.</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">G.3</span> Mint et burn</h3>
+      <ol>
+        <li><code>mint</code> (réservé au propriétaire) : renseigne une adresse + un montant. Confirme.</li>
+        <li>Pour prouver la sécurité : appelle <code>mint</code> <b>depuis une autre adresse</b> (change de compte dans MetaMask) → la transaction doit échouer avec <code>Token42: only owner can perform this action</code>.</li>
+        <li><code>burn</code> : brûle des tokens de ton propre compte, par ex. 1 T42. Vérifie que ton solde baisse.</li>
+        <li><code>transferOwnership</code> : teste de transférer la propriété à une autre adresse (et pourquoi pas de la rendre ensuite).</li>
+      </ol>
+      <div class="box good"><b>À l'évaluation :</b> montre ces tests dans Remix ou directement sur BSCScan — les transactions y sont visibles et vérifiables.</div>
+    </div>
+  </section>
+
+  <!-- ============ H. BSCSCAN ============ -->
+  <section class="section" id="verify">
+    <h2><span class="step-num">H</span> Vérifier et publier sur BSCScan</h2>
+    <p class="intro">Un block explorer est le "Google de la blockchain". On y rend notre contrat public et vérifiable.</p>
+
+    <div class="goal"><b>Objectif :</b> le contrat "Vérifié" sur BSCScan, avec ticker publié et transactions de démo visibles.</div>
+
+    <div class="step">
+      <h3><span class="k">H.1</span> Trouver le contrat</h3>
+      <ol>
+        <li>Va sur <code>https://testnet.bscscan.com</code> (le <b>testnet</b>, pas le mainnet !).</li>
+        <li>Colle l'adresse du contrat dans la barre de recherche.</li>
+        <li>La page du contrat s'affiche avec les transactions, les 
+holders, etc. Le symbole y apparaît encore comme "Unknown Token" tant 
+que ce n'est pas vérifié.</li>
+      </ol>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">H.2</span> Vérifier le code source</h3>
+      <ol>
+        <li>Ouvre l'onglet <b>"Contract"</b> puis clique <b>"Verify and Publish"</b>.</li>
+        <li>Remplis le formulaire <b>exactement</b> comme à la compilation :
+          <ul>
+            <li>Compiler type : <code>Solidity (Single file)</code></li>
+            <li>Compiler version : celle choisie dans Remix (ex. 0.8.26)</li>
+            <li>Open Source License Type : <code>MIT License</code></li>
+          </ul>
+        </li>
+        <li>Colle le code complet de <code>token.sol</code> dans le champ "Solidity Contract Code".</li>
+        <li>Clique <b>"Verify and Publish"</b>.</li>
+      </ol>
+      <div class="box warn"><b>Si la vérification échoue :</b> c'est 
+presque toujours un paramètre différent de la compilation (version 
+Solidity, licence, ou le code pas exactement identique). Recopie ton 
+code depuis Remix tel quel.</div>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">H.3</span> Publier le ticker et les infos du token</h3>
+      <ol>
+        <li>Sur la page du contrat, ouvre <b>"Contract" → "Update Token Info"</b> (ou "Update Token Information").</li>
+        <li>Renseigne : nom <code>Token42</code>, symbole <code>T42</code>, 18 décimales.</li>
+        <li>Tu peux aussi uploader un logo (optionnel).</li>
+      </ol>
+      <div class="box good"><b>Résultat :</b> ton token apparaît désormais proprement sur BSCScan avec ses transactions.</div>
+    </div>
+  </section>
+
+  <!-- ============ I. DEPOT CONFORME ============ -->
+  <section class="section" id="depot">
+    <h2><span class="step-num">I</span> Rendre le dépôt Git conforme</h2>
+    <p class="intro">Le sujet demande une structure précise : <code>README.md</code>, <code>code/</code>, <code>deployment/</code> et <code>documentation/</code> à la racine.</p>
+
+    <div class="goal"><b>Objectif :</b> un dépôt complet, avec l'adresse du contrat et le réseau indiqués.</div>
+
+    <div class="step">
+      <h3><span class="k">I.1</span> Créer le dossier <code>deployment/</code></h3>
+      <p>Il doit contenir tout ce qui sert au déploiement :</p>
+      <ul>
+        <li><b>Le code source</b> (copie de <code>token.sol</code>) ou un lien vers lui.</li>
+        <li><b>L'ABI</b> : dans Remix, onglet "Solidity Compiler" → bouton <b>"ABI"</b> → enregistre le JSON dans <code>deployment/Token42_ABI.json</code>.</li>
+        <li><b>Un fichier d'info</b> (ex. <code>deployment/README.md</code>) contenant :
+          <ul>
+            <li>l'<b>adresse du contrat</b> <code>0x...</code>,</li>
+            <li>le <b>réseau</b> : BSC Testnet (chain ID 97),</li>
+            <li>la version de Solidity et le lien BSCScan du contrat.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">I.2</span> Compléter le <code>README.md</code> racine</h3>
+      <p>Le sujet exige d'expliquer les choix faits. Structure suggérée :</p>
+      <ul>
+        <li>Présentation du projet et du token (<code>Token42</code> / <code>T42</code>).</li>
+        <li>Choix de la plateforme : BNB Chain (BEP-20) + pourquoi (partenaire du sujet, faibles frais, faucet gratuit).</li>
+        <li>Choix de l'outil : Remix (simple, recommandé par le sujet).</li>
+        <li>Choix techniques : OpenZeppelin ERC-20, 18 décimales, 1 000 000 de supply, sécurité via <code>onlyOwner</code>.</li>
+        <li>Adresse du contrat et réseau + lien BSCScan.</li>
+        <li>Comment tester : la liste des actions minimales (balanceOf, transfer, mint, burn).</li>
+      </ul>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">I.3</span> Finaliser la documentation</h3>
+      <ul>
+        <li>Termine <code>documentation/etherscan.md</code> (le fichier actuel est inachevé).</li>
+        <li><code>blockchain.md</code> et <code>sujet.md</code> sont déjà là.</li>
+        <li>Optionnel mais valorisé : un <b>whitepaper</b> et une <b>vidéo de démo</b> (simple lien suffit, la vidéo n'apporte pas de meilleure note).</li>
+      </ul>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">I.4</span> Valider et pousser</h3>
+      <ol>
+        <li>Relis ton contrat : noms explicites, commentaires présents (revue de code à l'évaluation).</li>
+        <li>Vérifie que le nom du token contient bien "42" et qu'il n'est pas insultant.</li>
+        <li>Commit et push sur ton dépôt Git.</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ J. FAQ ============ -->
+  <section class="section" id="faq">
+    <h2><span class="step-num">J</span> Dépannage &amp; questions fréquentes</h2>
+    <p class="intro">Les erreurs les plus courantes et leurs solutions.</p>
+
+    <div class="step">
+      <h3><span class="k">J.1</span> "Not enough funds for gas"</h3>
+      <p>Tu n'as pas assez de TBNB sur ton wallet testnet.</p>
+      <p>→ Récupère des TBNB au faucet (partie C) ou vérifie que MetaMask est bien sur le <b>BSC Testnet</b> (chain ID 97), pas sur Ethereum Mainnet.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">J.2</span> La transaction reste "pending"</h3>
+      <p>Le réseau de test est parfois lent ou le gas nonce est bloqué.</p>
+      <p>→ Attends, ou dans MetaMask va dans Paramètres → Avancé → <b>"Clear activity tab data"</b> pour réinitialiser. Puis réessaie.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">J.3</span> "Identifier already declared" à la compilation</h3>
+      <p>C'est le fameux conflit <code>decimals</code> : une constante <code>uint8 public constant decimals</code> entre en collision avec le getter <code>decimals()</code> de l'ERC-20.</p>
+      <p>→ Supprime la constante (et renomme-la <code>DECIMALS</code> en majuscule si tu la gardes en interne). Le getter d'OpenZeppelin renvoie déjà 18.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">J.4</span> La vérification BSCScan échoue</h3>
+      <p>→ Compare paramètre par paramètre avec Remix : version Solidity identique, licence MIT, et colle le code <b>exact</b> de <code>token.sol</code> (mêmes espaces, mêmes commentaires, c'est un hash qui doit matcher).</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">J.5</span> "revert" quand j'appelle mint depuis un autre compte</h3>
+      <p>Normal ! <code>mint</code> est protégé par <code>onlyOwner</code>. C'est le comportement attendu et c'est exactement ce qu'il faut montrer à l'évaluation.</p>
+    </div>
+
+    <div class="step">
+      <h3><span class="k">J.6</span> Est-ce que je risque de perdre de l'argent ?</h3>
+      <p>Non. On ne travaille que sur la BSC Testnet avec des TBNB de test qui ne valent rien. N'utilise <b>jamais</b> le Mainnet ni des fonds réels.</p>
+    </div>
+  </section>
+
+  <footer>Tokeniser — Tutoriel pas à pas · En complément de <b>roadmap.html</b> · Bonne chance, et bienvenue dans le Web3 ! 🚀</footer>
+
+</div>
+
+
+</body></html>
