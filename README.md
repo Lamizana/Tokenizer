@@ -18,8 +18,8 @@
 ## Adresse du contrat
 
 - **Réseau** : BSC Testnet (Chain ID : 97)
-- **Contrat** : [`0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD`](https://testnet.bscscan.com/address/0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD)
-- **Transaction de déploiement** : [`0x8646886e694e70d679d8bd5a46eb8429528b1ed63ae7288799f597d643ad830d`](https://testnet.bscscan.com/tx/0x8646886e694e70d679d8bd5a46eb8429528b1ed63ae7288799f597d643ad830d)
+- **Contrat** : [`0xB03B454DDa79A522603f2a21471A6bC6B24dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80)
+- **Transaction de déploiement** : [`0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d`](https://testnet.bscscan.com/tx/0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d)
 
 ---
 
@@ -29,7 +29,7 @@
 
 Le projet s'inscrit dans le partenariat 42 × BNB Chain. La BSC offre des frais de transaction
 très faibles, une compatibilité totale avec l'écosystème Ethereum (EVM), et un faucet de tBNB
-gratuits permettant de travailler sans jamais engager d'argent réel.
+gratuit permettant de travailler sans jamais engager d'argent réel.
 
 ### Pourquoi OpenZeppelin ?
 
@@ -63,7 +63,7 @@ et prévisible.
    - ID de chaîne : `97`
    - Symbole : `tBNB`
    - Explorateur : `https://testnet.bscscan.com`
-2. Obtenir des tBNB gratuits via le [faucet BNB Chain](https://www.bnbchain.org/)
+2. Obtenir des tBNB gratuits via le [faucet BNB Chain](https://www.bnbchain.org/en/testnet-faucet)
 3. Importer le token G42 : coller l'adresse du contrat
    `0xB03B454DDa79A522603f2a21471A6bC6B24dDb80` (symbole et décimales détectés automatiquement)
 
@@ -101,7 +101,7 @@ et prévisible.
 ## Structure du dépôt
 
 ```
-code/           source du smart contract (token.sol)
+code/           source du smart contract (g42.sol)
 deployement/    informations de déploiement + ABI du contrat
 documentation/  documentation du projet (blockchain, explorateurs, token)
 ```

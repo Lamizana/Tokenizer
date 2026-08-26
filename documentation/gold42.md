@@ -25,7 +25,7 @@ pédagogique pour comprendre les interactions avec un smart contract.
 | Supply maximale | 1 000 000 G42 |
 | Supply initiale | 800 000 G42 (80 %) |
 | Mintable restant | 200 000 G42 (20 %) |
-| Contrat | [`0xB03B454DDa79A522603f2a21471A6bC6B24dDb80`](https://testnet.bscscan.com/address/0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD) |
+| Contrat | [`0xB03B454DDa79A522603f2a21471A6bC6B24dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
 
 ---
 
@@ -89,3 +89,6 @@ Le contrat hérite d'`ERC20` (OpenZeppelin), ce qui fournit nativement :
 2. Obtenir des tBNB gratuits (gas) via le [faucet BNB Chain](https://www.bnbchain.org/).
 3. Demander au propriétaire un envoi (`transfer`) vers votre adresse.
 4. Importer le token dans MetaMask avec l'adresse du contrat ci-dessus.
+
+> Pour en savoir plus sur l'ABI et comment l'utiliser, consulter la section dédiée
+> dans [`deployement/informations.md`](../deployement/informations.md#quest-ce-que-labi).

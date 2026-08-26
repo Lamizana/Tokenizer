@@ -28,7 +28,7 @@ En collant une adresse de wallet ou de contrat dans la barre de recherche, on ac
 
 - son solde en BNB et en tokens BEP-20 ;
 - l'historique complet de ses transactions ;
-- les tokens ERC-721 (NFT) qu'elle détient ;
+- les tokens BEP-721 (NFT) qu'elle détient ;
 - les interactions avec les smart contracts.
 
 ### Suivre une transaction
@@ -69,8 +69,8 @@ C'est via BscScan Testnet que le token **GOLD42 (G42)** est consultable publique
 
 | Élément | Lien |
 | --- | --- |
-| Contrat G42 | [0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD](https://testnet.bscscan.com/address/0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD) |
-| Transaction de déploiement | [0x8646886e694e70d679d8bd5a46eb8429528b1ed63ae7288799f597d643ad830d](https://testnet.bscscan.com/tx/0x8646886e694e70d679d8bd5a46eb8429528b1ed63ae7288799f597d643ad830d) |
+| Contrat G42 | [0xB03B454DDa79A522603f2a21471A6bC6B24dDb80](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
+| Transaction de déploiement | [0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d](https://testnet.bscscan.com/tx/0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d) |
 
 On y retrouve notamment les événements émis par le contrat — `Mint`, `Burn`, `Transfer`,
 `OwnershipTransferred` — ce qui rend le fonctionnement du token **entièrement traçable** :
