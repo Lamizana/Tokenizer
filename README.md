@@ -65,7 +65,7 @@ et prévisible.
    - Explorateur : `https://testnet.bscscan.com`
 2. Obtenir des tBNB gratuits via le [faucet BNB Chain](https://www.bnbchain.org/)
 3. Importer le token G42 : coller l'adresse du contrat
-   `0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD` (symbole et décimales détectés automatiquement)
+   `0xB03B454DDa79A522603f2a21471A6bC6B24dDb80` (symbole et décimales détectés automatiquement)
 
 ### Fonctions principales
 

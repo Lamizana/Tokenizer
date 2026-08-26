@@ -68,7 +68,7 @@ permet au propriétaire du projet de publier le ticker, le site web et le logo d
 C'est via BscScan Testnet que le token **GOLD42 (G42)** est consultable publiquement :
 
 | Élément | Lien |
-|---|---|
+| --- | --- |
 | Contrat G42 | [0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD](https://testnet.bscscan.com/address/0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD) |
 | Transaction de déploiement | [0x8646886e694e70d679d8bd5a46eb8429528b1ed63ae7288799f597d643ad830d](https://testnet.bscscan.com/tx/0x8646886e694e70d679d8bd5a46eb8429528b1ed63ae7288799f597d643ad830d) |
 

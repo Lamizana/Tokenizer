@@ -16,7 +16,7 @@ pédagogique pour comprendre les interactions avec un smart contract.
 ## 2. Caractéristiques
 
 | Propriété | Valeur |
-|---|---|
+| --- | --- |
 | Nom | GOLD42 |
 | Ticker | G42 |
 | Norme | BEP-20 (compatible ERC-20) |
@@ -25,7 +25,7 @@ pédagogique pour comprendre les interactions avec un smart contract.
 | Supply maximale | 1 000 000 G42 |
 | Supply initiale | 800 000 G42 (80 %) |
 | Mintable restant | 200 000 G42 (20 %) |
-| Contrat | [`0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD`](https://testnet.bscscan.com/address/0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD) |
+| Contrat | [`0xB03B454DDa79A522603f2a21471A6bC6B24dDb80`](https://testnet.bscscan.com/address/0xa3B9A3eb3F2aE8ed3a6788F4Ccbdb1e503FE6aaD) |
 
 ---
 
@@ -55,19 +55,10 @@ Le contrat hérite d'`ERC20` (OpenZeppelin), ce qui fournit nativement :
 ### Fonctions spécifiques à GOLD42
 
 | Fonction | Description |
-|---|---|
+| --- | --- |
 | `mint(recipient, amount)` | Crée des tokens pour `recipient`. Réservé au propriétaire, plafonné à la supply maximale. Émet l'événement `Mint`. |
 | `burn(amount)` | Détruit `amount` tokens du solde de l'appelant. Émet l'événement `Burn`. |
 | `transferOwnership(newOwner)` | Transfère la propriété du contrat. Refuse l'adresse zéro et émet `OwnershipTransferred`. |
-
-### Exemple de scénario complet
-
-1. Le propriétaire déploie le contrat → il reçoit 800 000 G42.
-2. Il envoie 100 G42 à Alice : `transfer(alice, 100 * 10^18)`.
-3. Alice autorise Bob à dépenser 50 G42 : `approve(bob, 50 * 10^18)`.
-4. Bob transfère ces 50 G42 à Charlie depuis le compte d'Alice :
-   `transferFrom(alice, charlie, 50 * 10^18)`.
-5. Alice détruit ses 50 G42 restants : `burn(50 * 10^18)` → l'offre totale diminue.
 
 ---
 
@@ -75,8 +66,6 @@ Le contrat hérite d'`ERC20` (OpenZeppelin), ce qui fournit nativement :
 
 - **Moyen d'échange simple** sur le testnet entre wallets MetaMask.
 - **Support de démonstration** : évaluations, tutoriels, présentations Web3.
-- **Apprentissage des interactions DApp** : le couple `approve`/`transferFrom` est le
-  mécanisme utilisé par tous les protocoles DeFi (DEX, lending…).
 
 ---
 
@@ -98,5 +87,5 @@ Le contrat hérite d'`ERC20` (OpenZeppelin), ce qui fournit nativement :
 
 1. Configurer MetaMask sur la BSC Testnet (voir le README racine).
 2. Obtenir des tBNB gratuits (gas) via le [faucet BNB Chain](https://www.bnbchain.org/).
-3. Demander au propriétaire un envoi (`transfer`) ou un `mint` vers votre adresse.
+3. Demander au propriétaire un envoi (`transfer`) vers votre adresse.
 4. Importer le token dans MetaMask avec l'adresse du contrat ci-dessus.

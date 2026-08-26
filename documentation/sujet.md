@@ -96,4 +96,3 @@ Vous devez adapter ce bonus à la partie obligatoire de ce projet.
 > La partie bonus ne sera évaluée que si la partie obligatoire est PARFAITE. « Parfaite » signifie que la partie obligatoire a été réalisée dans son intégralité et qu’elle fonctionne sans aucun dysfonctionnement. Si vous n’avez pas satisfait à TOUTES les exigences obligatoires, votre partie bonus ne sera pas évaluée du tout.
 
 > À titre exceptionnel pour ce projet, nous vous recommandons de partager votre projet via votre compte Git personnel une fois que celui-ci sera valide. N'hésitez pas à utiliser différents hashtags en fonction du langage de programmation utilisé, mais aussi « web3 », etc.
-
