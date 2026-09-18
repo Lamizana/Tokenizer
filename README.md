@@ -1,7 +1,33 @@
+<div align="center">
+   
+<p align="center">
+  <a href="https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80"><img src="https://img.shields.io/badge/BNB_Smart_Chain-Testnet_(97)-F3BA2F?style=for-the-badge&logo=bnbchain&logoColor=black" alt="BSC Testnet"></a>
+  <a href="https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80"><img src="https://img.shields.io/badge/Contrat-BEP--20-F0B90B?style=for-the-badge&logo=binance&logoColor=black" alt="BEP-20"></a>
+  <a href="https://soliditylang.org/"><img src="https://img.shields.io/badge/Solidity-^0.8.0-363636?style=for-the-badge&logo=solidity&logoColor=white" alt="Solidity"></a>
+  <a href="https://www.openzeppelin.com/"><img src="https://img.shields.io/badge/OpenZeppelin-Contracts-4E5EE4?style=for-the-badge&logo=openzeppelin&logoColor=white" alt="OpenZeppelin"></a>
+  <a href="https://remix.ethereum.org/"><img src="https://img.shields.io/badge/IDE-Remix-007ACC?style=for-the-badge&logo=ethereum&logoColor=white" alt="Remix IDE"></a>
+  <a href="https://fr.wikipedia.org/wiki/École_42"><img src="https://img.shields.io/badge/Projet-42_%C3%97_BNB_Chain-000000?style=for-the-badge&logo=42&logoColor=white" alt="42 x BNB Chain"></a>
+</p>
+
+
 # GOLD42 (G42)
 
-> Jeton BEP-20 créé sur la BNB Smart Chain — projet « Tokeniser » (42 × BNB Chain)
+<p align="center">
+  <strong>Jeton BEP-20 créé sur la BNB Smart Chain</strong>
+</p>
 
+<p align="center">
+  Projet « Tokeniser » (42 × BNB Chain)
+</p>
+
+</div>
+
+---
+
+## Spécifications du Token
+
+<div align="center">
+   
 | | |
 |---|---|
 | **Nom** | GOLD42 |
@@ -12,6 +38,8 @@
 | **Supply maximale** | 1 000 000 G42 (plafond absolu) |
 | **Supply initiale** | 800 000 G42 (80 %) |
 | **Langage** | Solidity `^0.8.0` · OpenZeppelin Contracts |
+
+</div>
 
 ---
 
@@ -69,6 +97,8 @@ et prévisible.
 
 ### Fonctions principales
 
+<div align="center">
+
 | Fonction | Rôle | Accès |
 |---|---|---|
 | `transfer(to, amount)` | Envoyer des G42 | Tous |
@@ -79,6 +109,8 @@ et prévisible.
 | `mint(recipient, amount)` | Créer des G42 (dans la limite du plafond) | Propriétaire |
 | `burn(amount)` | Détruire définitivement ses propres G42 | Tous |
 | `transferOwnership(newOwner)` | Transférer la propriété du contrat | Propriétaire |
+
+</div>
 
 > Les montants s'expriment en unités de base : `1 G42 = 10^18`.
 > Exemple : 100 G42 = `100000000000000000000`.
@@ -111,3 +143,20 @@ documentation/  documentation du projet (blockchain, explorateurs, token)
 - [`documentation/gold42.md`](documentation/gold42.md) — fonctionnement détaillé du token
 - [`documentation/blockchain.md`](documentation/blockchain.md) — rappels sur la blockchain
 - [`documentation/bscscan.md`](documentation/bscscan.md) — explorateur de blocs BscScan
+
+---
+
+
+## Auteur
+
+**Alex Lamizana** : Étudiant 42 Angoulême, spécialisation Data & IA
+
+- [Site](https://lamizana.github.io/ZehdBox/)
+- [GitHub](https://github.com/Lamizana)
+
+
+<div align="center">
+
+*Ce projet a été réalisé conformément à la norme et au sujet officiel de 42.*
+
+</div>
