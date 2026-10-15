@@ -21,7 +21,7 @@ Le contrat `code/g42.sol` a été compilé avec Solidity `^0.8.0`, puis déploy�
 | **Réseau** | BNB Smart Chain **Testnet** (Chain ID : 97) |
 | **Transaction de création** | [`0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d`](https://testnet.bscscan.com/tx/0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d) |
 | **Date** | 21/08/2026 |
-| **Adresse du déployeur (owner)** | `0x69eF124b2033A69C6061cf88FfFBAE913E169fB2` |
+| **Adresse du déployeur (owner)** | `0x...` |
 | **Coût du déploiement** | 0,001544511 BNB ([transaction](https://testnet.bscscan.com/tx/0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d)) |
 | **Vérifié sur BscScan** | Oui — le code source est public et vérifié |
 
@@ -68,9 +68,9 @@ directement via l'onglet **Read Contract** de [BscScan](https://testnet.bscscan.
 
 | Étape | Fonction à appeler | Résultat attendu |
 | --- | --- | --- |
-| 1 | `balanceOf(0x69eF...fB2)` | `800000000000000000000000` (800 000 G42) |
+| 1 | `balanceOf(0x...)` | `800000000000000000000000` (800 000 G42) |
 | 2 | `totalSupply()` | `800000000000000000000000` (800 000 G42) |
-| 3 | `owner()` | `0x69eF124b2033A69C6061cf88FfFBAE913E169fB2` |
+| 3 | `owner()` | `0x...` |
 | 4 | `name()` | `GOLD42` |
 | 5 | `symbol()` | `G42` |
 | 6 | `decimals()` | `18` |
