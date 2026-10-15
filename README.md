@@ -135,14 +135,14 @@ Depuis l'onglet **Read Contract** de [BscScan](https://testnet.bscscan.com/addre
 ## Compilation et déploiement
 
 1. Ouvrir [Remix IDE](https://remix.ethereum.org) et créer un espace de travail.
-2. Ajouter le contrat dans `code/` (`token.sol` ou `g42.sol` : Remix résout seul l'import `@openzeppelin/contracts/token/ERC20/ERC20.sol`).
+2. Ajouter le contrat [`contracts/GOLD42.sol`](contracts/GOLD42.sol) dans Remix : l'import `@openzeppelin/contracts/token/ERC20/ERC20.sol` est résolu automatiquement.
 3. Compiler en Solidity `^0.8.0` (optimiseur activé par défaut, 200 *runs*).
 4. Onglet **Deploy & Run** → environnement **Injected Provider - MetaMask**, connecté à
    **BSC Testnet**.
 5. Cliquer sur **Deploy**, confirmer la transaction dans MetaMask, puis noter l'adresse du contrat et le hash de la transaction.
 6. **Vérifier le contrat** sur BscScan : coller le code source **exact** compilé (Solidity, fichier unique, version et licence identiques à Remix) et valider.
 
-Le détail complet (paramètres de compilation, coût en gas, ABI et tests interactifs) est dans [`deployement/informations.md`](deployement/informations.md).
+Le détail complet (paramètres de compilation, coût en gas, ABI et tests interactifs) est dans [`docs/deploiement.md`](docs/deploiement.md).
 
 ---
 
@@ -161,21 +161,19 @@ Le détail complet (paramètres de compilation, coût en gas, ABI et tests inter
 
 ```text
 .
-├── code/
-│   ├── token.sol        contrat GOLD42 (nom attendu par le sujet 42)
-│   └── g42.sol          même contrat, version compilée et déployée
-├── deployement/
-│   ├── informations.md  déploiement : outil, paramètres, coûts, tests
-│   └── token_abi.json   ABI du contrat déployé
-├── documentation/
-│   ├── gold42.md        fonctionnement détaillé du token
-│   ├── blockchain.md    rappels sur la blockchain et la BNB Smart Chain
-│   ├── bscscan.md       lire et vérifier un contrat sur BscScan
-│   ├── sujet.md         sujet officiel du projet
-│   └── tokeniser.pdf    rapport complet (PDF)
-├── sujet.md             sujet officiel (même contenu que documentation/sujet.md)
-├── roadmap.html         feuille de route du projet
-├── Tokeniser — Tutoriel pas à pas.html
+├── abi/
+│   └── GOLD42.json              ABI du contrat déployé
+├── contracts/
+│   └── GOLD42.sol               contrat GOLD42 (Solidity ^0.8.0 + OpenZeppelin)
+├── docs/
+│   ├── blockchain.md            rappels sur la blockchain et la BNB Smart Chain
+│   ├── bscscan.md               lire et vérifier un contrat sur BscScan
+│   ├── deploiement.md           déploiement : outil, paramètres, coûts, tests
+│   ├── feuille-de-route.html    feuille de route du projet
+│   ├── gold42.md                fonctionnement détaillé du token
+│   ├── rapport.pdf              rapport complet (PDF)
+│   ├── sujet.md                 sujet officiel du projet
+│   └── tutoriel.html            tutoriel complet, pas à pas
 ├── LICENSE
 └── README.md
 ```
@@ -184,14 +182,14 @@ Le détail complet (paramètres de compilation, coût en gas, ABI et tests inter
 
 ## Documentation
 
-- [`documentation/gold42.md`](documentation/gold42.md) — fonctionnement détaillé du token
-- [`documentation/blockchain.md`](documentation/blockchain.md) — rappels sur la blockchain et la BNB Smart Chain
-- [`documentation/bscscan.md`](documentation/bscscan.md) — lire et vérifier un contrat sur BscScan
-- [`deployement/informations.md`](deployement/informations.md) — déploiement : outil, paramètres, coûts et tests
-- [`documentation/sujet.md`](documentation/sujet.md) — sujet officiel du projet (42 × BNB Chain)
-- [`Tokeniser — Tutoriel pas à pas.html`](Tokeniser%20%E2%80%94%20Tutoriel%20pas%20%C3%A0%20pas.html) — tutoriel complet, en HTML
-- [`documentation/tokeniser.pdf`](documentation/tokeniser.pdf) — rapport complet (PDF)
-- [`roadmap.html`](roadmap.html) — feuille de route du projet
+- [`docs/gold42.md`](docs/gold42.md) — fonctionnement détaillé du token
+- [`docs/blockchain.md`](docs/blockchain.md) — rappels sur la blockchain et la BNB Smart Chain
+- [`docs/bscscan.md`](docs/bscscan.md) — lire et vérifier un contrat sur BscScan
+- [`docs/deploiement.md`](docs/deploiement.md) — déploiement : outil, paramètres, coûts et tests
+- [`docs/sujet.md`](docs/sujet.md) — sujet officiel du projet (42 × BNB Chain)
+- [`docs/tutoriel.html`](docs/tutoriel.html) — tutoriel complet, pas à pas (HTML)
+- [`docs/rapport.pdf`](docs/rapport.pdf) — rapport complet (PDF)
+- [`docs/feuille-de-route.html`](docs/feuille-de-route.html) — feuille de route du projet
 
 ---
 
@@ -223,7 +221,7 @@ Les messages de commit suivent [Conventional Commits](https://www.conventionalco
 
 | Préfixe | Usage |
 | --- | --- |
-| `feat` | nouvelle fonctionnalité (ex. : `feat(code): ajoute la fonction burn`) |
+| `feat` | nouvelle fonctionnalité (ex. : `feat(contracts): ajoute la fonction burn`) |
 | `fix` | correction de bug |
 | `docs` | documentation seule |
 | `chore` | maintenance (configuration, fichiers annexes) |
