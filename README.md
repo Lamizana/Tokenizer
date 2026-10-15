@@ -13,7 +13,7 @@
 
 **Jeton BEP-20 déployé sur la BNB Smart Chain Testnet**
 
-Projet **Tokenizer** — 42 × BNB Chain
+Projet **Tokenizer** (42 × BNB Chain)
 
 </div>
 
@@ -24,20 +24,28 @@ Projet **Tokenizer** — 42 × BNB Chain
 <details>
 <summary>Afficher le sommaire</summary>
 
-- [À propos](#à-propos)
-- [Spécifications du token](#spécifications-du-token)
-- [Adresse du contrat](#adresse-du-contrat)
-- [Fonctions principales](#fonctions-principales)
-- [Utilisation](#utilisation)
-- [Compilation et déploiement](#compilation-et-déploiement)
-- [Sécurité](#sécurité)
-- [Structure du dépôt](#structure-du-dépôt)
-- [Documentation](#documentation)
-- [Choix techniques](#choix-techniques)
-- [Contribuer](#contribuer)
-- [Auteur](#auteur)
-- [Remerciements](#remerciements)
-- [Licence](#licence)
+- [GOLD42 (G42)](#gold42-g42)
+  - [Sommaire](#sommaire)
+  - [À propos](#à-propos)
+  - [Spécifications du token](#spécifications-du-token)
+  - [Adresse du contrat](#adresse-du-contrat)
+  - [Fonctions principales](#fonctions-principales)
+  - [Utilisation](#utilisation)
+    - [Configurer MetaMask sur BSC Testnet](#configurer-metamask-sur-bsc-testnet)
+    - [Vérifier un solde](#vérifier-un-solde)
+  - [Compilation et déploiement](#compilation-et-déploiement)
+  - [Sécurité](#sécurité)
+  - [Structure du dépôt](#structure-du-dépôt)
+  - [Documentation](#documentation)
+  - [Choix techniques](#choix-techniques)
+    - [Pourquoi la BNB Smart Chain ?](#pourquoi-la-bnb-smart-chain-)
+    - [Pourquoi OpenZeppelin ?](#pourquoi-openzeppelin-)
+    - [Pourquoi Remix ?](#pourquoi-remix-)
+    - [Pourquoi une supply partielle au déploiement ?](#pourquoi-une-supply-partielle-au-déploiement-)
+  - [Contribuer](#contribuer)
+  - [Auteur](#auteur)
+  - [Remerciements](#remerciements)
+  - [Licence](#licence)
 
 </details>
 
@@ -45,23 +53,17 @@ Projet **Tokenizer** — 42 × BNB Chain
 
 ## À propos
 
-**GOLD42** (`G42`) est un jeton **BEP-20** — le standard des tokens fongibles de la BNB Smart
-Chain, équivalent du célèbre ERC-20 d'Ethereum — déployé sur le **testnet** dans le cadre du
-projet **Tokenizer** (partenariat 42 × BNB Chain).
+**GOLD42** (`G42`) est un jeton **BEP-20**. C'est le standard des tokens fongibles de la BNB Smart Chain, équivalent du célèbre ERC-20 d'Ethereum déployé sur le **testnet** dans le cadre du projet **Tokenizer** (partenariat 42 × BNB Chain).
 
-Le contrat s'appuie sur l'implémentation `ERC20` d'**OpenZeppelin**, est compilé en Solidity
-`^0.8.0`, déployé depuis **Remix** via **MetaMask**, puis **vérifié sur BscScan**. L'objectif
-est pédagogique : écrire, compiler, déployer et vérifier un smart-contract de bout en bout,
-sans jamais engager d'argent réel.
+Le contrat s'appuie sur l'implémentation `ERC20` d'**OpenZeppelin**, est compilé en Solidity `^0.8.0`, déployé depuis **Remix** via **MetaMask**, puis **vérifié sur BscScan**.
+
+L'objectif est pédagogique : écrire, compiler, déployer et vérifier un smart-contract de bout en bout, sans jamais engager d'argent réel.
 
 | Ressource | Lien |
 | --- | --- |
 | Fiche du projet (portfolio) | [lamizana.github.io/ZehdBox/projets/tokenizer](https://lamizana.github.io/ZehdBox/projets/tokenizer/) |
 | Contrat vérifié | [BscScan — `0xB03B…dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
-| Sujet officiel | [`sujet.md`](sujet.md) |
 
-> Le nom d'origine du projet, tel qu'il apparaît dans le sujet 42 et dans les livrables, est
-> **« Tokeniser »** ; le dépôt et le portfolio utilisent **« Tokenizer »**.
 
 ---
 
@@ -72,7 +74,7 @@ sans jamais engager d'argent réel.
 | **Nom** | GOLD42 |
 | **Symbole** | G42 |
 | **Norme** | BEP-20 (ERC-20 d'OpenZeppelin) |
-| **Réseau** | BNB Smart Chain — Testnet (Chain ID : 97) |
+| **Réseau** | BNB Smart Chain - Testnet (Chain ID : 97) |
 | **Décimales** | 18 |
 | **Supply maximale** | 1 000 000 G42 (plafond absolu) |
 | **Supply initiale** | 800 000 G42 (80 %) |
@@ -118,8 +120,7 @@ sans jamais engager d'argent réel.
    - Symbole : `tBNB`
    - Explorateur : `https://testnet.bscscan.com`
 2. Obtenir des tBNB gratuits via le [faucet BNB Chain](https://www.bnbchain.org/en/testnet-faucet)
-3. Importer le token G42 : coller l'adresse du contrat
-   `0xB03B454DDa79A522603f2a21471A6bC6B24dDb80` (symbole et décimales détectés automatiquement)
+3. Importer le token G42 : coller l'adresse du contrat `0xB03B454DDa79A522603f2a21471A6bC6B24dDb80` (symbole et décimales détectés automatiquement)
 
 ### Vérifier un solde
 
@@ -134,30 +135,24 @@ Depuis l'onglet **Read Contract** de [BscScan](https://testnet.bscscan.com/addre
 ## Compilation et déploiement
 
 1. Ouvrir [Remix IDE](https://remix.ethereum.org) et créer un espace de travail.
-2. Ajouter le contrat dans `code/` (`token.sol` ou `g42.sol` : Remix résout seul l'import
-   `@openzeppelin/contracts/token/ERC20/ERC20.sol`).
-2. Compiler en Solidity `^0.8.0` (optimiseur activé par défaut, 200 *runs*).
-3. Onglet **Deploy & Run** → environnement **Injected Provider — MetaMask**, connecté à
+2. Ajouter le contrat dans `code/` (`token.sol` ou `g42.sol` : Remix résout seul l'import `@openzeppelin/contracts/token/ERC20/ERC20.sol`).
+3. Compiler en Solidity `^0.8.0` (optimiseur activé par défaut, 200 *runs*).
+4. Onglet **Deploy & Run** → environnement **Injected Provider - MetaMask**, connecté à
    **BSC Testnet**.
-2. Cliquer sur **Deploy**, confirmer la transaction dans MetaMask, puis noter l'adresse du
-   contrat et le hash de la transaction.
-5. **Vérifier le contrat** sur BscScan : coller le code source **exact** compilé (Solidity,
-   fichier unique, version et licence identiques à Remix) et valider.
+5. Cliquer sur **Deploy**, confirmer la transaction dans MetaMask, puis noter l'adresse du contrat et le hash de la transaction.
+6. **Vérifier le contrat** sur BscScan : coller le code source **exact** compilé (Solidity, fichier unique, version et licence identiques à Remix) et valider.
 
-Le détail complet (paramètres de compilation, coût en gas, ABI et tests interactifs) est dans
-[`deployement/informations.md`](deployement/informations.md).
+Le détail complet (paramètres de compilation, coût en gas, ABI et tests interactifs) est dans [`deployement/informations.md`](deployement/informations.md).
 
 ---
 
 ## Sécurité
 
-- **Propriété explicite** : seules les fonctions `mint` et `transferOwnership` sont
-  restreintes au propriétaire (`onlyOwner`) ; personne d'autre ne peut créer de tokens.
+- **Propriété explicite** : seules les fonctions `mint` et `transferOwnership` sont restreintes au propriétaire (`onlyOwner`) ; personne d'autre ne peut créer de tokens.
 - **Offre plafonnée** : le total émis ne peut jamais dépasser 1 000 000 G42.
 - **Transfert de propriété protégé** : adresse zéro refusée + événement
   `OwnershipTransferred` émis pour tracer chaque changement.
-- **Aucun privilège caché** : pas de pause, pas de blacklist, pas de frais prélevés —
-  les détenteurs restent libres de leurs fonds.
+- **Aucun privilège caché** : pas de pause, pas de blacklist, pas de frais prélevés. Les détenteurs restent libres de leurs fonds.
 - **Zéro argent réel** : déploiement sur testnet uniquement.
 
 ---
@@ -204,36 +199,25 @@ Le détail complet (paramètres de compilation, coût en gas, ABI et tests inter
 
 ### Pourquoi la BNB Smart Chain ?
 
-[Remix](https://remix.ethereum.org) mis à part, la BNB Smart Chain est un réseau EVM : le
-contrat Solidity y fonctionne sans modification et l'écosystème d'outils est le même
-qu'Ethereum, pour des frais beaucoup plus faibles et un faucet de tBNB gratuits en testnet.
+[Remix](https://remix.ethereum.org) mis à part, la BNB Smart Chain est un réseau EVM : le contrat Solidity y fonctionne sans modification et l'écosystème d'outils est le même qu'Ethereum, pour des frais beaucoup plus faibles et un faucet de tBNB gratuits en testnet.
 
 ### Pourquoi OpenZeppelin ?
 
-L'implémentation `ERC20` d'OpenZeppelin est auditée et fait référence : elle fournit
-`transfer`, `approve`, `transferFrom` et les événements du standard, sans réécrire à la main
-des mécanismes sensibles.
+L'implémentation `ERC20` d'OpenZeppelin est auditée et fait référence : elle fournit `transfer`, `approve`, `transferFrom` et les événements du standard, sans réécrire à la main des mécanismes sensibles.
 
 ### Pourquoi Remix ?
 
-Remix est un IDE en ligne, sans installation, qui compile, teste sur machine virtuelle et
-déploie via MetaMask — l'outil le plus direct pour un projet de cette taille, et celui
-recommandé par la documentation officielle de BNB Chain.
+Remix est un IDE en ligne, sans installation, qui compile, teste sur machine virtuelle et déploie via MetaMask. C'est l'outil le plus direct pour un projet de cette taille, et celui recommandé par la documentation officielle de BNB Chain.
 
 ### Pourquoi une supply partielle au déploiement ?
 
-80 % de la supply (800 000 G42) est créée au déploiement au profit du propriétaire ; les
-20 % restants (200 000 G42) peuvent être mintés ultérieurement par le propriétaire. Le
-plafond absolu de 1 000 000 G42 est gravé dans le contrat et impossible à dépasser. Ce choix
-rend la fonction `mint()` réellement fonctionnelle tout en garantissant une offre plafonnée
-et prévisible.
+80 % de la supply (800 000 G42) est créée au déploiement au profit du propriétaire ; les 20 % restants (200 000 G42) peuvent être mintés ultérieurement par le propriétaire. Le plafond absolu de 1 000 000 G42 est gravé dans le contrat et impossible à dépasser. Ce choix rend la fonction `mint()` réellement fonctionnelle tout en garantissant une offre plafonnée et prévisible.
 
 ---
 
 ## Contribuer
 
-Le dépôt est avant tout un projet pédagogique 42 : propositions, corrections et remarques
-sont bienvenues via une **issue** ou une **pull request**.
+Le dépôt est avant tout un projet pédagogique 42 : propositions, corrections et remarques sont bienvenues via une **issue** ou une **pull request**.
 
 Les messages de commit suivent [Conventional Commits](https://www.conventionalcommits.org/fr/v1.0.0/) :
 
@@ -248,7 +232,7 @@ Les messages de commit suivent [Conventional Commits](https://www.conventionalco
 
 ## Auteur
 
-**Alex Lamizana** — étudiant 42 Angoulême, spécialisation Data & IA
+**Alex Lamizana**: étudiant 42 Angoulême, spécialisation Data & IA
 
 - [Site](https://lamizana.github.io/ZehdBox/)
 - [GitHub](https://github.com/Lamizana)
@@ -257,15 +241,23 @@ Les messages de commit suivent [Conventional Commits](https://www.conventionalco
 
 ## Remerciements
 
-- [OpenZeppelin](https://www.openzeppelin.com/) — contrats Solidity audités (`ERC20`)
-- [Remix IDE](https://remix.ethereum.org/) — compilation et déploiement
-- [BscScan](https://testnet.bscscan.com/) — exploration et vérification du contrat
-- [BNB Chain](https://www.bnbchain.org/) — documentation et faucet testnet
+- [OpenZeppelin](https://www.openzeppelin.com/) : contrats Solidity audités (`ERC20`)
+- [Remix IDE](https://remix.ethereum.org/) : compilation et déploiement
+- [BscScan](https://testnet.bscscan.com/) : exploration et vérification du contrat
+- [BNB Chain](https://www.bnbchain.org/) : documentation et faucet testnet
 
 ---
 
 ## Licence
 
-Distribué sous licence **MIT** (SPDX : `MIT`) — voir [`LICENSE`](LICENSE).
+Distribué sous licence **MIT** (SPDX : `MIT`) - voir [`LICENSE`](LICENSE).
 
 © 2026 Alex Lamizana
+
+---
+
+<div align="center">
+
+*Ce projet a été réalisé conformément à la norme et au sujet officiel de 42.*
+
+</div>
