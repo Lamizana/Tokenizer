@@ -6,8 +6,7 @@
 
 ## Outil utilisé : Remix IDE
 
-[Remix](https://remix.ethereum.org) est une application open source permettant de développer,
-compiler, déployer et tester des smart-contracts compatibles EVM (dont la BNB Smart Chain).
+[Remix](https://remix.ethereum.org) est une application open source permettant de développer, compiler, déployer et tester des smart-contracts compatibles EVM (dont la BNB Smart Chain).
 
 Le contrat [`contracts/GOLD42.sol`](../contracts/GOLD42.sol) a été compilé avec Solidity `^0.8.0`, puis déployé via l'environnement **« Injected Provider - MetaMask »** connecté à la **BSC Testnet**.
 
@@ -23,7 +22,7 @@ Le contrat [`contracts/GOLD42.sol`](../contracts/GOLD42.sol) a été compilé av
 | **Date** | 21/08/2026 |
 | **Adresse du déployeur (owner)** | `0x...` |
 | **Coût du déploiement** | 0,001544511 BNB ([transaction](https://testnet.bscscan.com/tx/0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d)) |
-| **Vérifié sur BscScan** | Oui — le code source est public et vérifié |
+| **Vérifié sur BscScan** | Oui, le code source est public et vérifié |
 
 ---
 

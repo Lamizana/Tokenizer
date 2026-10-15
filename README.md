@@ -169,10 +169,7 @@ Le détail complet (paramètres de compilation, coût en gas, ABI et tests inter
 │   ├── blockchain.md            rappels sur la blockchain et la BNB Smart Chain
 │   ├── bscscan.md               lire et vérifier un contrat sur BscScan
 │   ├── deploiement.md           déploiement : outil, paramètres, coûts, tests
-│   ├── feuille-de-route.html    feuille de route du projet
 │   ├── gold42.md                fonctionnement détaillé du token
-│   ├── rapport.pdf              rapport complet (PDF)
-│   ├── sujet.md                 sujet officiel du projet
 │   └── tutoriel.html            tutoriel complet, pas à pas
 ├── LICENSE
 └── README.md
@@ -182,14 +179,13 @@ Le détail complet (paramètres de compilation, coût en gas, ABI et tests inter
 
 ## Documentation
 
-- [`docs/gold42.md`](docs/gold42.md) — fonctionnement détaillé du token
-- [`docs/blockchain.md`](docs/blockchain.md) — rappels sur la blockchain et la BNB Smart Chain
-- [`docs/bscscan.md`](docs/bscscan.md) — lire et vérifier un contrat sur BscScan
-- [`docs/deploiement.md`](docs/deploiement.md) — déploiement : outil, paramètres, coûts et tests
-- [`docs/sujet.md`](docs/sujet.md) — sujet officiel du projet (42 × BNB Chain)
-- [`docs/tutoriel.html`](docs/tutoriel.html) — tutoriel complet, pas à pas (HTML)
-- [`docs/rapport.pdf`](docs/rapport.pdf) — rapport complet (PDF)
-- [`docs/feuille-de-route.html`](docs/feuille-de-route.html) — feuille de route du projet
+| Fichiers | Descriptif |
+| --- | --- |
+| [`docs/gold42.md`](docs/gold42.md) | fonctionnement détaillé du token |
+| [`docs/blockchain.md`](docs/blockchain.md) | rappels sur la blockchain et la BNB Smart Chain |
+| [`docs/bscscan.md`](docs/bscscan.md) | lire et vérifier un contrat sur BscScan |
+| [`docs/deploiement.md`](docs/deploiement.md) | déploiement : outil, paramètres, coûts et tests |
+| [`docs/tutoriel.html`](docs/tutoriel.html) | tutoriel complet, pas à pas (HTML) |
 
 ---
 

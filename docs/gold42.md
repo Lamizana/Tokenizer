@@ -1,15 +1,20 @@
-# GOLD42 (G42) — Livre blanc
+# GOLD42 (G42) | Livre blanc
 
-> Document de présentation du jeton GOLD42 — mise à jour : 21/08/2026
+> Document de présentation du jeton GOLD42
 
 ---
 
 ## 1. Vision
 
-GOLD42 est un jeton numérique **fongible** conforme à la norme **BEP-20**, déployé sur la
-**BNB Smart Chain (testnet)**. Il sert à la fois de démonstration complète du cycle de vie
-d'un token — création, distribution, transfert, destruction, gouvernance — et de support
-pédagogique pour comprendre les interactions avec un smart contract.
+GOLD42 est un jeton numérique **fongible** conforme à la norme **BEP-20**, déployé sur la **BNB Smart Chain (testnet)**. Il sert à la fois de démonstration complète du cycle de vie d'un token :
+
+- Création
+- Distribution
+- Transfert
+- Destruction
+- Gouvernance
+
+Il sert aussi de support pédagogique pour comprendre les interactions avec un smart contract.
 
 ---
 
@@ -46,11 +51,15 @@ pédagogique pour comprendre les interactions avec un smart contract.
 
 Le contrat hérite d'`ERC20` (OpenZeppelin), ce qui fournit nativement :
 
-- `name()`, `symbol()`, `decimals()` — métadonnées du token ;
-- `totalSupply()`, `balanceOf(address)` — offre totale et solde d'une adresse ;
-- `transfer(to, amount)` — envoi direct de tokens ;
-- `approve(spender, amount)` + `allowance(owner, spender)` + `transferFrom(from, to, amount)` —
-  mécanisme d'autorisation permettant à un tiers (DApp, exchange…) de dépenser pour vous.
+
+| Fonctions | Descriptif |
+| --- | --- |
+| `name()`, `symbol()`, `decimals()` | métadonnées du token |
+| `totalSupply()`, `balanceOf(address)` | offre totale et solde d'une adresse |
+| `transfer(to, amount)` | envoi direct de tokens |
+| `approve(spender, amount)` + `allowance(owner, spender)` + `transferFrom(from, to, amount)` | mécanisme d'autorisation permettant à un tiers (DApp, exchange…) de dépenser pour vous |
+
+
 
 ### Fonctions spécifiques à GOLD42
 
