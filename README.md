@@ -62,7 +62,7 @@ L'objectif est pédagogique : écrire, compiler, déployer et vérifier un smart
 | Ressource | Lien |
 | --- | --- |
 | Fiche du projet (portfolio) | [lamizana.github.io/ZehdBox/projets/tokenizer](https://lamizana.github.io/ZehdBox/projets/tokenizer/) |
-| Contrat vérifié | [BscScan — `0xB03B…dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
+| Contrat vérifié | [BscScan : `0xB03B…dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
 
 
 ---

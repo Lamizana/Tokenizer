@@ -1,7 +1,6 @@
 # BscScan
 
-*Explorateur de blocs officiel de la BNB Smart Chain, permettant de suivre l'état
-d'avancement de ses transactions et d'inspecter les smart contracts.*
+*Explorateur de blocs officiel de la BNB Smart Chain, permettant de suivre l'état d'avancement de ses transactions et d'inspecter les smart contracts.*
 
 > Date de création : 21.08.2026
 
@@ -10,13 +9,11 @@ d'avancement de ses transactions et d'inspecter les smart contracts.*
 ## Qu'est-ce que BscScan ?
 
 [BscScan](https://bscscan.com) est le **BlockExplorer** de la ***BNB Smart Chain***.
-Un BlockExplorer est **un moteur de recherche** qui permet à ses utilisateurs de chercher
-facilement les transactions qui transitent sur la blockchain.
+Un BlockExplorer est **un moteur de recherche** qui permet à ses utilisateurs de chercher facilement les transactions qui transitent sur la blockchain.
 
-BscScan est développé par la même équipe qu'Etherscan (l'explorateur de référence
-d'Ethereum) et reprend exactement les mêmes fonctionnalités, adaptées à la BNB Chain.
+BscScan est développé par la même équipe qu'Etherscan (l'explorateur de référence d'Ethereum) et reprend exactement les mêmes fonctionnalités, adaptées à la BNB Chain.
 Il existe une version dédiée au réseau de test :
-**[testnet.bscscan.com](https://testnet.bscscan.com)** — c'est celle utilisée pour ce projet.
+- **[testnet.bscscan.com](https://testnet.bscscan.com)**. C'est celle utilisée pour ce projet.
 
 ---
 
@@ -49,17 +46,11 @@ Sur la page d'un contrat, l'onglet **« Contract »** permet de :
 
 ### Vérifier un contrat (Verify & Publish)
 
-L'onglet **« Verify & Publish »** permet de publier le code source d'un smart contract.
-BscScan le compile et compare le bytecode obtenu avec celui réellement déployé on-chain :
-si les deux correspondent, le contrat affiche une coche verte ✅ et son code devient
-consultable par tous. C'est un **gage de transparence essentiel** : n'importe qui peut
-vérifier ce que fait le contrat avant d'interagir avec lui.
+L'onglet **« Verify & Publish »** permet de publier le code source d'un smart contract. BscScan le compile et compare le bytecode obtenu avec celui réellement déployé on-chain : si les deux correspondent, le contrat affiche une coche verte ✅ et son code devient consultable par tous. C'est un **gage de transparence essentiel** : n'importe qui peut vérifier ce que fait le contrat avant d'interagir avec lui.
 
 ### Consulter les informations d'un token
 
-La page d'un token BEP-20 affiche son nom, son ticker, sa supply, le nombre de détenteurs
-et son graphique de prix si celui-ci est échangé. Le bouton **« Update Token Info »**
-permet au propriétaire du projet de publier le ticker, le site web et le logo du token.
+La page d'un token BEP-20 affiche son nom, son ticker, sa supply, le nombre de détenteurs et son graphique de prix si celui-ci est échangé. Le bouton **« Update Token Info »** permet au propriétaire du projet de publier le ticker, le site web et le logo du token.
 
 ---
 
@@ -72,6 +63,11 @@ C'est via BscScan Testnet que le token **GOLD42 (G42)** est consultable publique
 | Contrat G42 | [0xB03B454DDa79A522603f2a21471A6bC6B24dDb80](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
 | Transaction de déploiement | [0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d](https://testnet.bscscan.com/tx/0xfb066f35f5541f90bdc8d3d1bd5bc68be43318bdb83e9504b34e2ca7ee53645d) |
 
-On y retrouve notamment les événements émis par le contrat — `Mint`, `Burn`, `Transfer`,
-`OwnershipTransferred` — ce qui rend le fonctionnement du token **entièrement traçable** :
-chaque création, destruction ou transfert de G42 est public et vérifiable par tous.
+On y retrouve notamment les événements émis par le contrat :
+
+- `Mint`
+- `Burn`
+- `Transfer`
+- `OwnershipTransferred`
+
+Cela rend le fonctionnement du token **entièrement traçable** : chaque création, destruction ou transfert de G42 est public et vérifiable par tous.
