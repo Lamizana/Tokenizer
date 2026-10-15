@@ -91,4 +91,4 @@ Le contrat hérite d'`ERC20` (OpenZeppelin), ce qui fournit nativement :
 4. Importer le token dans MetaMask avec l'adresse du contrat ci-dessus.
 
 > Pour en savoir plus sur l'ABI et comment l'utiliser, consulter la section dédiée
-> dans [`deployement/informations.md`](../deployement/informations.md#quest-ce-que-labi).
+> dans [`deploiement.md`](deploiement.md#quest-ce-que-labi-).

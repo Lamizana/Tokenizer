@@ -9,7 +9,7 @@
 [Remix](https://remix.ethereum.org) est une application open source permettant de développer,
 compiler, déployer et tester des smart-contracts compatibles EVM (dont la BNB Smart Chain).
 
-Le contrat `code/g42.sol` a été compilé avec Solidity `^0.8.0`, puis déployé via l'environnement **« Injected Provider - MetaMask »** connecté à la **BSC Testnet**.
+Le contrat [`contracts/GOLD42.sol`](../contracts/GOLD42.sol) a été compilé avec Solidity `^0.8.0`, puis déployé via l'environnement **« Injected Provider - MetaMask »** connecté à la **BSC Testnet**.
 
 ---
 
@@ -42,7 +42,7 @@ avec 200 *runs* (un compromis entre taille de déploiement et coût d'exécution
 
 Pour vérifier les paramètres exacts utilisés lors du déploiement :
 1. Ouvrir [Remix](https://remix.ethereum.org)
-2. Charger `code/g42.sol`
+2. Charger [`contracts/GOLD42.sol`](../contracts/GOLD42.sol)
 3. Aller dans l'onglet **Solidity Compiler**
 4. Cliquer sur **Advanced Configurations**
 5. Consulter la case **Enable optimization** et le champ **Runs**
@@ -92,12 +92,12 @@ directement via l'onglet **Read Contract** de [BscScan](https://testnet.bscscan.
 
 ---
 
-## Contenu du dossier
+## Fichiers du déploiement
 
 | Fichier | Description |
 | --- | --- |
-| `token_abi.json` | ABI du contrat déployé, à utiliser pour interagir avec le token (MetaMask « Importer un jeton », Ethers.js, Web3.js…) |
-| `informations.md` | Ce fichier — récapitulatif complet du déploiement |
+| [`abi/GOLD42.json`](../abi/GOLD42.json) | ABI du contrat déployé, à utiliser pour interagir avec le token (MetaMask « Importer un jeton », Ethers.js, Web3.js…) |
+| `deploiement.md` | Ce fichier — récapitulatif complet du déploiement |
 
 ---
 

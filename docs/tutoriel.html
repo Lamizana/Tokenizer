@@ -355,7 +355,7 @@ sec ou demander un délai entre deux demandes. C'est normal.</div>
 
     <div class="step">
       <h3><span class="k">D.1</span> Le code complet du contrat</h3>
-      <p>Ce fichier doit aller dans le dossier <code>code/</code> de ton dépôt sous le nom <code>token.sol</code>. Voici le code (version corrigée par rapport à l'existant — le conflit <code>decimals</code> est supprimé) :</p>
+      <p>Ce fichier doit aller dans le dossier <code>contracts/</code> de ton dépôt sous le nom <code>GOLD42.sol</code>. Voici le code (version corrigée par rapport à l'existant — le conflit <code>decimals</code> est supprimé) :</p>
       <pre><code>// SPDX-License-Identifier: MIT
 // Token42 — jeton BEP-20 (standard ERC-20 d'OpenZeppelin)
 // Norme : BEP-20 sur la BNB Smart Chain
@@ -431,7 +431,7 @@ contract Token42 is ERC20 {
     <div class="step">
       <h3><span class="k">D.3</span> Mettre à jour ton dépôt</h3>
       <ol>
-        <li>Ouvre <code>code/token.sol</code> et remplace son contenu par le code ci-dessus (ou modifie l'existant : renomme le contrat, supprime la constante <code>decimals</code> qui entrait en conflit avec le getter d'ERC20).</li>
+        <li>Ouvre <code>contracts/GOLD42.sol</code> et remplace son contenu par le code ci-dessus (ou modifie l'existant : renomme le contrat, supprime la constante <code>decimals</code> qui entrait en conflit avec le getter d'ERC20).</li>
         <li>Assure-toi que chaque fonction a bien un commentaire lisible. C'est exigé par le sujet (revue de code à l'évaluation).</li>
       </ol>
     </div>
@@ -646,7 +646,7 @@ code depuis Remix tel quel.</div>
     <div class="step">
       <h3><span class="k">I.3</span> Finaliser la documentation</h3>
       <ul>
-        <li>Termine <code>documentation/etherscan.md</code> (le fichier actuel est inachevé).</li>
+        <li>Termine <code>docs/bscscan.md</code> (le fichier actuel est inachevé).</li>
         <li><code>blockchain.md</code> et <code>sujet.md</code> sont déjà là.</li>
         <li>Optionnel mais valorisé : un <b>whitepaper</b> et une <b>vidéo de démo</b> (simple lien suffit, la vidéo n'apporte pas de meilleure note).</li>
       </ul>
@@ -701,7 +701,7 @@ code depuis Remix tel quel.</div>
     </div>
   </section>
 
-  <footer>Tokeniser — Tutoriel pas à pas · En complément de <b>roadmap.html</b> · Bonne chance, et bienvenue dans le Web3 ! 🚀</footer>
+  <footer>Tokeniser — Tutoriel pas à pas · En complément de <b>feuille-de-route.html</b> · Bonne chance, et bienvenue dans le Web3 ! 🚀</footer>
 
 </div>
 
