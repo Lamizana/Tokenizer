@@ -9,13 +9,17 @@
   <a href="https://fr.wikipedia.org/wiki/École_42"><img src="https://img.shields.io/badge/Projet-42_%C3%97_BNB_Chain-000000?style=for-the-badge&logo=42&logoColor=white" alt="42 × BNB Chain"></a>
 </p>
 
-# GOLD42 (G42)
+# GOLD42
 
-**Jeton BEP-20 déployé sur la BNB Smart Chain Testnet**
+<img src="./docs/social-preview.png" alt="NFT Zehd42" width="360">
 
 Projet **Tokenizer** (42 × BNB Chain)
 
 </div>
+
+
+
+
 
 ---
 
@@ -24,7 +28,7 @@ Projet **Tokenizer** (42 × BNB Chain)
 <details>
 <summary>Afficher le sommaire</summary>
 
-- [GOLD42 (G42)](#gold42-g42)
+- [GOLD42](#gold42)
   - [Sommaire](#sommaire)
   - [À propos](#à-propos)
   - [Spécifications du token](#spécifications-du-token)
