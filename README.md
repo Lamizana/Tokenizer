@@ -15,7 +15,7 @@
 
 Projet **Tokenizer** (42 × BNB Chain)
 
-<a href="https://lamizana.github.io/ZehdBox/projets/linear-regression/">
+<a href="https://lamizana.github.io/ZehdBox/">
     <img src="https://img.shields.io/badge/Portfolio-ZehdBox-8A2BE2?style=for-the-badge&logo=githubpages&logoColor=white" alt="Portfolio ZehdBox">
 </a>
 
@@ -69,8 +69,9 @@ L'objectif est pédagogique : écrire, compiler, déployer et vérifier un smart
 
 | Ressource | Lien |
 | --- | --- |
-| Fiche du projet (portfolio) | [lamizana.github.io/ZehdBox/projets/tokenizer](https://lamizana.github.io/ZehdBox/projets/tokenizer/) |
-| Contrat vérifié | [BscScan : `0xB03B…dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
+| *Fiche du projet (portfolio)* | [ZehdBox](https://lamizana.github.io/ZehdBox/projets/tokenizer/) |
+| *Tutoriel (portfolio)* | [Zehdbox Tutoriel](https://lamizana.github.io/ZehdBox/projets/tokenizer) |
+| *Contrat vérifié | [BscScan : `0xB03B…dDb80`](https://testnet.bscscan.com/address/0xB03B454DDa79A522603f2a21471A6bC6B24dDb80) |
 
 
 ---
