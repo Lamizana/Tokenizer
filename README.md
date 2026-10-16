@@ -15,6 +15,10 @@
 
 Projet **Tokenizer** (42 × BNB Chain)
 
+<a href="https://lamizana.github.io/ZehdBox/projets/linear-regression/">
+    <img src="https://img.shields.io/badge/Portfolio-ZehdBox-8A2BE2?style=for-the-badge&logo=githubpages&logoColor=white" alt="Portfolio ZehdBox">
+</a>
+
 </div>
 
 
