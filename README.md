@@ -21,10 +21,6 @@ Projet **Tokenizer** (42 × BNB Chain)
 
 </div>
 
-
-
-
-
 ---
 
 ## Sommaire
